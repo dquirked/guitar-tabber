@@ -14,3 +14,11 @@
   margin-right: 5px;
   border-right: 1px solid $c-black;
 }
+
+.tab-string__string-values {
+  display: flex;
+}
+
+.tab-string__input {
+  max-width: 15px;
+}
