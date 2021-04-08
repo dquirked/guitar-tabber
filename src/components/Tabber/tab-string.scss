@@ -1,0 +1,16 @@
+@import "../../scss/_colors.scss";
+
+.tab-string {
+  display: flex;
+  padding: 5px 0;
+}
+
+.tab-string__string-name {
+  width: 10px;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  padding-right: 10px;
+  margin-right: 5px;
+  border-right: 1px solid $c-black;
+}
