@@ -1,0 +1,7 @@
+# Browsers that we support
+# used by babel, autoprefixer, eslint, stylelint, etc
+
+> 0.5%
+last 2 versions
+Firefox ESR
+ie >= 11
