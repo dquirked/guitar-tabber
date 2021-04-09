@@ -6,6 +6,7 @@
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
     "babel-eslint": "^10.1.0",
+    "codemirror": "^5.60.0",
     "gatsby": "^3.2.1",
     "gatsby-plugin-gatsby-cloud": "^2.2.0",
     "gatsby-plugin-image": "^1.2.0",
@@ -19,6 +20,7 @@
     "prop-types": "^15.7.2",
     "ramda": "^0.27.1",
     "react": "^17.0.1",
+    "react-codemirror2": "^7.2.1",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0"
   },
@@ -30,7 +32,6 @@
     "@storybook/addons": "^6.1.10",
     "@storybook/react": "^6.1.10",
     "autoprefixer": "^9.8.6",
-    "codemirror": "^5.58.3",
     "contentful-management": "^7.5.0",
     "eslint": "^7.23.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",

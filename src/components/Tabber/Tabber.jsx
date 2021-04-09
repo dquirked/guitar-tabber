@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import {} from "prop-types";
 
 import TabString from "./TabString.jsx";
+import TabRenderer from "../TabRenderer/TabRenderer.jsx";
+
 import {
   removeValueFromString,
   addValueToString,
@@ -38,11 +40,12 @@ const Tabber = (props) => {
         <TabString
           key={key}
           stringName={key}
-          values={stringValues[`${key}`]}
+          values={stringValues[key]}
           removeValue={removeValue}
           addValue={addValue}
         />
       ))}
+      <TabRenderer stringValues={stringValues} />
     </div>
   );
 };

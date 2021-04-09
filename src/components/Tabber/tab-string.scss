@@ -19,6 +19,16 @@
   display: flex;
 }
 
+.tab-string__string-value-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .tab-string__input {
   max-width: 15px;
+}
+
+.tab-string__remove {
+  padding: 0 10px;
 }
