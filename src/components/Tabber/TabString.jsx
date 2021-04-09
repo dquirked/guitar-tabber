@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { string } from "prop-types";
+import useClickAway from "../../common/useClickAway.jsx";
 
 const propTypes = { stringName: string.isRequired };
 
@@ -11,11 +12,16 @@ const TabString = (props) => {
   const [inputValue, setInputValue] = useState("");
   const [editingIndex, setEditingIndex] = useState(undefined);
 
+  const valueRef = useClickAway({
+    isOpen: inputValue !== undefined,
+    setOpen: () => setEditingIndex(undefined),
+  });
+
   useEffect(() => {
     setInputValue("");
   }, [values]);
 
-  const getKey = (index) => `${stringName}-${index}`
+  const getKey = (index) => `${stringName}-${index}`;
 
   return (
     <div className="tab-string">
@@ -25,24 +31,34 @@ const TabString = (props) => {
       {values && values.length > 0 && (
         <div className="tab-string__string-values">
           {values.map((value, i) => (
-            <div className="tab-string__string-value-wrapper" key={i}>
-				{editingIndex === i ? (
-					<input
-						className="tab-string__input"
-						type="text"
-						onChange={(e) => {
-							changeValue(stringName, i, {
-								value: e.target.value,
-								key: getKey(i),
-							});
-							setEditingIndex(undefined)
-						}}
-						maxLength="1"
-						value={inputValue}
-					/>
-				) : (
-					<div onClick={() => setEditingIndex(i)}>---------{value.value}--------</div>
-				)}
+            <div
+              ref={valueRef}
+              className="tab-string__string-value-wrapper"
+              key={i}
+            >
+              {editingIndex === i ? (
+                <input
+                  className="tab-string__input"
+                  type="text"
+                  onChange={(e) => {
+                    changeValue(stringName, i, {
+                      value: e.target.value,
+                      key: getKey(i),
+                    });
+                    setEditingIndex(undefined);
+                  }}
+                  maxLength="1"
+                  value={inputValue}
+                />
+              ) : (
+                <button
+                  className="tab-string__change-btn"
+                  type="button"
+                  onClick={() => setEditingIndex(i)}
+                >
+                  ---------{value.value}--------
+                </button>
+              )}
               <div>
                 <button
                   className="tab-string__remove"
@@ -56,18 +72,18 @@ const TabString = (props) => {
           ))}
         </div>
       )}
-	  <input
-			className="tab-string__input"
-			type="text"
-			onChange={(e) => {
-				addValue(stringName, {
-					value: e.target.value,
-					key: getKey(values.length + 1),
-				});
-			}}
-			maxLength="1"
-			value={inputValue}
-		/>
+      <input
+        className="tab-string__input"
+        type="text"
+        onChange={(e) => {
+          addValue(stringName, {
+            value: e.target.value,
+            key: getKey(values.length + 1),
+          });
+        }}
+        maxLength="1"
+        value={inputValue}
+      />
     </div>
   );
 };

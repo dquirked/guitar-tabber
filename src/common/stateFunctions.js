@@ -19,10 +19,13 @@ export const addValueToString = (string, value, state) => {
 };
 
 export const changeValueOfString = (string, index, value, state) => {
-	return R.evolve(
-	  {
-		[string]: (values) => { values[index] = value; return values; },
-	  },
-	  state,
-	);
-  };
+  return R.evolve(
+    {
+      [string]: (values) => {
+        values[index] = value;
+        return values;
+      },
+    },
+    state,
+  );
+};
