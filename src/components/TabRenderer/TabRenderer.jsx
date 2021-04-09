@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
-import {} from "prop-types";
+import { shape, objectOf, arrayOf, string } from "prop-types";
 import { Controlled as CodeMirror } from "react-codemirror2";
 
 import "./tab-renderer.scss";
 import "codemirror/lib/codemirror.css";
 
-const propTypes = {};
+const propTypes = {
+  stringValues: objectOf(
+    arrayOf(shape({ value: string.isRequired, key: string.isRequired })),
+  ).isRequired,
+};
 
 const TabRenderer = (props) => {
   const { stringValues } = props;
