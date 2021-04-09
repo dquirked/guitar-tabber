@@ -6,13 +6,16 @@ const propTypes = { stringName: string.isRequired };
 import "./tab-string.scss";
 
 const TabString = (props) => {
-  const { stringName, values, removeValue, addValue } = props;
+  const { stringName, values, removeValue, addValue, changeValue } = props;
 
   const [inputValue, setInputValue] = useState("");
+  const [editingIndex, setEditingIndex] = useState(undefined);
 
   useEffect(() => {
     setInputValue("");
   }, [values]);
+
+  const getKey = (index) => `${stringName}-${index}`
 
   return (
     <div className="tab-string">
@@ -23,7 +26,23 @@ const TabString = (props) => {
         <div className="tab-string__string-values">
           {values.map((value, i) => (
             <div className="tab-string__string-value-wrapper" key={i}>
-              <div>---------{value.value}--------</div>
+				{editingIndex === i ? (
+					<input
+						className="tab-string__input"
+						type="text"
+						onChange={(e) => {
+							changeValue(stringName, i, {
+								value: e.target.value,
+								key: getKey(i),
+							});
+							setEditingIndex(undefined)
+						}}
+						maxLength="1"
+						value={inputValue}
+					/>
+				) : (
+					<div onClick={() => setEditingIndex(i)}>---------{value.value}--------</div>
+				)}
               <div>
                 <button
                   className="tab-string__remove"
@@ -37,18 +56,18 @@ const TabString = (props) => {
           ))}
         </div>
       )}
-      <input
-        className="tab-string__input"
-        type="text"
-        onChange={(e) => {
-          addValue(stringName, {
-            value: e.target.value,
-            key: `${stringName}-${values.length + 1}`,
-          });
-        }}
-        maxLength="1"
-        value={inputValue}
-      />
+	  <input
+			className="tab-string__input"
+			type="text"
+			onChange={(e) => {
+				addValue(stringName, {
+					value: e.target.value,
+					key: getKey(values.length + 1),
+				});
+			}}
+			maxLength="1"
+			value={inputValue}
+		/>
     </div>
   );
 };

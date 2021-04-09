@@ -7,6 +7,7 @@ import TabRenderer from "../TabRenderer/TabRenderer.jsx";
 import {
   removeValueFromString,
   addValueToString,
+  changeValueOfString
 } from "../../common/stateFunctions.js";
 import "./tabber.scss";
 
@@ -34,6 +35,12 @@ const Tabber = (props) => {
     });
   };
 
+  const changeValue = (string, index, value) => {
+    setStringValues((prevState) => {
+      return changeValueOfString(string, index, value, prevState);
+    });
+  };
+
   return (
     <div className="tabber">
       {Object.keys(stringValues).map((key, i) => (
@@ -43,6 +50,7 @@ const Tabber = (props) => {
           values={stringValues[key]}
           removeValue={removeValue}
           addValue={addValue}
+          changeValue={changeValue}
         />
       ))}
       <TabRenderer stringValues={stringValues} />
