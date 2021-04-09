@@ -14,6 +14,13 @@ const propTypes = {
 const TabRenderer = (props) => {
   const { stringValues } = props;
 
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    //prevent hydration problems
+    setHasMounted(true);
+  }, []);
+
   const formattedStrings = Object.keys(stringValues).map((key, i) => {
     return stringValues[key].reduce((acc, curr) => acc + curr.value, "");
   });
@@ -39,12 +46,14 @@ const TabRenderer = (props) => {
     }
   };
 
-  return (
+  return !hasMounted ? null : (
     <div className="tab-renderer">
-      <CodeMirror
-        options={{ lineNumbers: true, lineNumberFormatter: formatLineNumber }}
-        value={singleString}
-      />
+      {hasMounted && (
+        <CodeMirror
+          options={{ lineNumbers: true, lineNumberFormatter: formatLineNumber }}
+          value={singleString}
+        />
+      )}
     </div>
   );
 };
