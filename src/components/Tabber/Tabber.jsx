@@ -7,7 +7,7 @@ import TabRenderer from "../TabRenderer/TabRenderer.jsx";
 import {
   removeValueFromString,
   addValueToString,
-  changeValueOfString
+  changeValueOfString,
 } from "../../common/stateFunctions.js";
 import "./tabber.scss";
 
@@ -22,6 +22,8 @@ const Tabber = (props) => {
     A: [],
     E: [],
   });
+
+  console.log(stringValues);
 
   const removeValue = (string, value) => {
     setStringValues((prevState) => {

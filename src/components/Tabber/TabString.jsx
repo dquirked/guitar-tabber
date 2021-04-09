@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { string } from "prop-types";
+import { string, func, arrayOf, shape } from "prop-types";
 import useClickAway from "../../common/useClickAway.jsx";
 
-const propTypes = { stringName: string.isRequired };
+const propTypes = {
+  stringName: string.isRequired,
+  values: arrayOf(shape({ value: string.isRequired, key: string.isRequired }))
+    .isRequired,
+  removeValue: func.isRequired,
+  addValue: func.isRequired,
+  changeValue: func.isRequired,
+};
 
 import "./tab-string.scss";
 
@@ -37,26 +44,32 @@ const TabString = (props) => {
               key={i}
             >
               {editingIndex === i ? (
-                <input
-                  className="tab-string__input"
-                  type="text"
-                  onChange={(e) => {
-                    changeValue(stringName, i, {
-                      value: e.target.value,
-                      key: getKey(i),
-                    });
-                    setEditingIndex(undefined);
-                  }}
-                  maxLength="1"
-                  value={inputValue}
-                />
+                <div>
+                  <span>---------</span>
+                  <input
+                    className="tab-string__input"
+                    type="text"
+                    onChange={(e) => {
+                      changeValue(stringName, i, {
+                        value: e.target.value,
+                        key: getKey(i),
+                      });
+                      setEditingIndex(undefined);
+                    }}
+                    maxLength="1"
+                    value={inputValue}
+                  />
+                  <span>---------</span>
+                </div>
               ) : (
                 <button
                   className="tab-string__change-btn"
                   type="button"
                   onClick={() => setEditingIndex(i)}
                 >
-                  ---------{value.value}--------
+                  <span>---------</span>
+                  <span>{value.value}</span>
+                  <span>--------</span>
                 </button>
               )}
               <div>
