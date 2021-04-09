@@ -46,11 +46,19 @@ const TabRenderer = (props) => {
     }
   };
 
+  const onCodeMirrorMount = (editorContext, event) => {
+    console.log(editorContext, event);
+  };
+
   return !hasMounted ? null : (
     <div className="tab-renderer">
       {hasMounted && (
         <CodeMirror
-          options={{ lineNumbers: true, lineNumberFormatter: formatLineNumber }}
+          editorDidMount={onCodeMirrorMount}
+          options={{
+            lineNumbers: true,
+            lineNumberFormatter: formatLineNumber,
+          }}
           value={singleString}
         />
       )}
