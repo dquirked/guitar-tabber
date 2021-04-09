@@ -25,7 +25,10 @@ const TabRenderer = (props) => {
     return stringValues[key].reduce((acc, curr) => acc + curr.value, "");
   });
 
-  const singleString = formattedStrings.reduce((acc, curr) => acc + curr, "");
+  const singleString = formattedStrings.reduce(
+    (acc, curr) => acc + `${curr}\n`,
+    "",
+  );
 
   const formatLineNumber = (num) => {
     switch (num) {
@@ -42,7 +45,7 @@ const TabRenderer = (props) => {
       case 6:
         return "E";
       default:
-        return "error";
+        return "";
     }
   };
 
