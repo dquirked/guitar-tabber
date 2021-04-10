@@ -17,6 +17,7 @@ module.exports = {
       },
     },
     "gatsby-transformer-sharp",
+	"gatsby-plugin-use-query-params",
     "gatsby-plugin-sharp",
     {
       resolve: "gatsby-plugin-manifest",

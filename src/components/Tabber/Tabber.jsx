@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {} from "prop-types";
+import { equals } from 'ramda';
+import { useQueryParam, StringParam } from "use-query-params";
 
 import TabString from "./TabString.jsx";
 import TabRenderer from "../TabRenderer/TabRenderer.jsx";
@@ -14,16 +16,27 @@ import "./tabber.scss";
 const propTypes = {};
 
 const Tabber = (props) => {
-  const [stringValues, setStringValues] = useState({
-    e: [],
-    B: [],
-    G: [],
-    D: [],
-    A: [],
-    E: [],
-  });
+	const [queryParam, setQueryParam] = useQueryParam("strings", StringParam);
+	let parsedQueryParams = {};
+	try {
+	  parsedQueryParams = JSON.parse(queryParam)
+	} catch (e) {}
 
-  console.log(stringValues);
+	const defaultState = {
+		e: [],
+		b: [],
+		G: [],
+		D: [],
+		A: [],
+		E: [],
+	};
+  const [stringValues, setStringValues] = useState(queryParam ? parsedQueryParams : defaultState);
+
+  useEffect(() => {
+	if (!equals(parsedQueryParams, stringValues)) {
+		setQueryParam(JSON.stringify(stringValues))
+	}
+  }, [stringValues]);
 
   const removeValue = (string, value) => {
     setStringValues((prevState) => {
