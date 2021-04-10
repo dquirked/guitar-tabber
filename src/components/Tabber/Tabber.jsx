@@ -16,7 +16,7 @@ const propTypes = {};
 const Tabber = (props) => {
   const [stringValues, setStringValues] = useState({
     e: [],
-    b: [],
+    B: [],
     G: [],
     D: [],
     A: [],

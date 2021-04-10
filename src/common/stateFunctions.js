@@ -12,7 +12,7 @@ export const removeValueFromString = (string, value, state) => {
 export const addValueToString = (string, value, state) => {
   return R.evolve(
     {
-      [`${string}`]: (values) => [...values, value],
+      [string]: (values) => [...values, value],
     },
     state,
   );

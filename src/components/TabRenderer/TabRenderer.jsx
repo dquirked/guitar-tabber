@@ -22,7 +22,10 @@ const TabRenderer = (props) => {
   }, []);
 
   const formattedStrings = Object.keys(stringValues).map((key, i) => {
-    return stringValues[key].reduce((acc, curr) => acc + curr.value, "");
+    return stringValues[key].reduce(
+      (acc, curr) => acc + `----${curr.value}----`,
+      "",
+    );
   });
 
   const singleString = formattedStrings.reduce(

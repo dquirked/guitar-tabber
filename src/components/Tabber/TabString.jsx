@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-autofocus*/
+
 import React, { useState, useEffect } from "react";
 import { string, func, arrayOf, shape } from "prop-types";
 import useClickAway from "../../common/useClickAway.jsx";
@@ -47,6 +49,7 @@ const TabString = (props) => {
                 <div>
                   <span>---------</span>
                   <input
+                    autoFocus
                     className="tab-string__input"
                     type="text"
                     onChange={(e) => {
