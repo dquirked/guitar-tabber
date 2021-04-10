@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { shape, objectOf, arrayOf, string } from "prop-types";
+import { objectOf, arrayOf, string } from "prop-types";
 import { Controlled as CodeMirror } from "react-codemirror2";
 
 import "./tab-renderer.scss";
 import "codemirror/lib/codemirror.css";
 
 const propTypes = {
-  stringValues: objectOf(
-    arrayOf(shape({ value: string.isRequired, key: string.isRequired })),
-  ).isRequired,
+  stringValues: objectOf(arrayOf(string.isRequired)).isRequired,
 };
 
 const TabRenderer = (props) => {
@@ -22,10 +20,7 @@ const TabRenderer = (props) => {
   }, []);
 
   const formattedStrings = Object.keys(stringValues).map((key, i) => {
-    return stringValues[key].reduce(
-      (acc, curr) => acc + `----${curr.value}----`,
-      "",
-    );
+    return stringValues[key].reduce((acc, curr) => acc + `----${curr}----`, "");
   });
 
   const singleString = formattedStrings.reduce(

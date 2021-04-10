@@ -6,7 +6,7 @@
  */
 
 import * as React from "react";
-import {} from "prop-types";
+import { node } from "prop-types";
 
 import "./main-layout.scss";
 
@@ -14,7 +14,7 @@ import { useStaticQuery, graphql } from "gatsby";
 
 import GlobalHeader from "../GlobalHeader/GlobalHeader.jsx";
 
-const propTypes = {};
+const propTypes = { children: node };
 
 const MainLayout = (props) => {
   const { children } = props;

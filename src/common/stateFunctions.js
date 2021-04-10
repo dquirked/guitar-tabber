@@ -1,9 +1,9 @@
 import * as R from "ramda";
 
-export const removeValueFromString = (string, value, state) => {
+export const removeValueFromString = (string, index, state) => {
   return R.evolve(
     {
-      [string]: R.filter((currValue) => currValue.key !== value.key),
+      [string]: (values) => values.filter((currVal, i) => i !== index),
     },
     state,
   );

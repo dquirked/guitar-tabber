@@ -1,13 +1,12 @@
 /* eslint-disable jsx-a11y/no-autofocus*/
 
 import React, { useState, useEffect } from "react";
-import { string, func, arrayOf, shape } from "prop-types";
+import { string, func, arrayOf } from "prop-types";
 import useClickAway from "../../common/useClickAway.jsx";
 
 const propTypes = {
   stringName: string.isRequired,
-  values: arrayOf(shape({ value: string.isRequired, key: string.isRequired }))
-    .isRequired,
+  values: arrayOf(string.isRequired).isRequired,
   removeValue: func.isRequired,
   addValue: func.isRequired,
   changeValue: func.isRequired,
@@ -18,6 +17,7 @@ import "./tab-string.scss";
 const TabString = (props) => {
   const { stringName, values, removeValue, addValue, changeValue } = props;
 
+  const [hasMounted, setHasMounted] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [editingIndex, setEditingIndex] = useState(undefined);
 
@@ -27,12 +27,14 @@ const TabString = (props) => {
   });
 
   useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  useEffect(() => {
     setInputValue("");
   }, [values]);
 
-  const getKey = (index) => `${stringName}-${index}`;
-
-  return (
+  return !hasMounted ? null : (
     <div className="tab-string">
       <div className="tab-string__string-name">
         <div>{stringName}</div>
@@ -53,10 +55,7 @@ const TabString = (props) => {
                     className="tab-string__input"
                     type="text"
                     onChange={(e) => {
-                      changeValue(stringName, i, {
-                        value: e.target.value,
-                        key: getKey(i),
-                      });
+                      changeValue(stringName, i, e.target.value);
                       setEditingIndex(undefined);
                     }}
                     maxLength="1"
@@ -71,7 +70,7 @@ const TabString = (props) => {
                   onClick={() => setEditingIndex(i)}
                 >
                   <span>---------</span>
-                  <span>{value.value}</span>
+                  <span>{value}</span>
                   <span>--------</span>
                 </button>
               )}
@@ -79,7 +78,7 @@ const TabString = (props) => {
                 <button
                   className="tab-string__remove"
                   type="button"
-                  onClick={() => removeValue(stringName, value)}
+                  onClick={() => removeValue(stringName, i)}
                 >
                   x
                 </button>
@@ -92,10 +91,7 @@ const TabString = (props) => {
         className="tab-string__input"
         type="text"
         onChange={(e) => {
-          addValue(stringName, {
-            value: e.target.value,
-            key: getKey(values.length + 1),
-          });
+          addValue(stringName, e.target.value);
         }}
         maxLength="1"
         value={inputValue}
