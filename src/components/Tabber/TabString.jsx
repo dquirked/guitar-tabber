@@ -88,7 +88,7 @@ const TabString = (props) => {
         type="text"
         onChange={(e) => setInputValue(e.target.value)}
         onBlur={(e) => {
-          addValue(stringName, e.target.value);
+          e.target.value === "" ? null : addValue(stringName, e.target.value);
         }}
         value={inputValue}
       />
