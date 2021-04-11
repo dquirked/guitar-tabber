@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import {} from "prop-types";
-import { equals } from "ramda";
-import { useQueryParam, StringParam } from "use-query-params";
+import { useQueryParams, ArrayParam, withDefault } from "use-query-params";
 
 import TabString from "./TabString.jsx";
 import TabRenderer from "../TabRenderer/TabRenderer.jsx";
@@ -16,33 +15,30 @@ import "./tabber.scss";
 const propTypes = {};
 
 const Tabber = (props) => {
-  const [queryParam, setQueryParam] = useQueryParam("strings", StringParam);
-
-  let parsedQueryParams = useMemo(() => {}, []);
-
-  try {
-    parsedQueryParams = JSON.parse(queryParam);
-  } catch (e) {
-    console.warn(e);
-  }
+  const [queryParams, setQueryParams] = useQueryParams({
+    e: withDefault(ArrayParam, []),
+    B: withDefault(ArrayParam, []),
+    G: withDefault(ArrayParam, []),
+    D: withDefault(ArrayParam, []),
+    A: withDefault(ArrayParam, []),
+    E: withDefault(ArrayParam, []),
+  });
 
   const defaultState = {
     e: [],
-    b: [],
+    B: [],
     G: [],
     D: [],
     A: [],
     E: [],
   };
   const [stringValues, setStringValues] = useState(
-    queryParam ? parsedQueryParams : defaultState,
+    queryParams ? queryParams : defaultState,
   );
 
   useEffect(() => {
-    if (!equals(parsedQueryParams, stringValues)) {
-      setQueryParam(JSON.stringify(stringValues));
-    }
-  }, [stringValues, parsedQueryParams, setQueryParam]);
+    setQueryParams(stringValues);
+  }, [stringValues, setQueryParams]);
 
   const removeValue = (string, value) => {
     setStringValues((prevState) => {
