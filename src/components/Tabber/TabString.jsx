@@ -54,7 +54,9 @@ const TabString = (props) => {
                     className="tab-string__input"
                     type="text"
                     onBlur={(e) => {
-                      changeValue(stringName, i, e.target.value);
+                      e.target.value === ""
+                        ? null
+                        : changeValue(stringName, i, e.target.value);
                       setEditingIndex(undefined);
                     }}
                   />
