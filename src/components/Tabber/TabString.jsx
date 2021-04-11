@@ -49,19 +49,15 @@ const TabString = (props) => {
             >
               {editingIndex === i ? (
                 <div>
-                  <span>---------</span>
                   <input
                     autoFocus
                     className="tab-string__input"
                     type="text"
-                    onChange={(e) => {
+                    onBlur={(e) => {
                       changeValue(stringName, i, e.target.value);
                       setEditingIndex(undefined);
                     }}
-                    maxLength="1"
-                    value={inputValue}
                   />
-                  <span>---------</span>
                 </div>
               ) : (
                 <button
@@ -69,9 +65,7 @@ const TabString = (props) => {
                   type="button"
                   onClick={() => setEditingIndex(i)}
                 >
-                  <span>---------</span>
-                  <span>{value}</span>
-                  <span>--------</span>
+                  {value}
                 </button>
               )}
               <div>
@@ -90,10 +84,10 @@ const TabString = (props) => {
       <input
         className="tab-string__input"
         type="text"
-        onChange={(e) => {
+        onChange={(e) => setInputValue(e.target.value)}
+        onBlur={(e) => {
           addValue(stringName, e.target.value);
         }}
-        maxLength="1"
         value={inputValue}
       />
     </div>

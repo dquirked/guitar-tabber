@@ -32,6 +32,7 @@ const Tabber = (props) => {
     A: [],
     E: [],
   };
+
   const [stringValues, setStringValues] = useState(
     queryParams ? queryParams : defaultState,
   );
