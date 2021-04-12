@@ -4,11 +4,13 @@ import { useQueryParams, ArrayParam, withDefault } from "use-query-params";
 
 import TabString from "./TabString.jsx";
 import TabRenderer from "../TabRenderer/TabRenderer.jsx";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import {
   removeValueFromString,
   addValueToString,
   changeValueOfString,
+  createTabString,
 } from "../../common/stateFunctions.js";
 import "./tabber.scss";
 
@@ -33,9 +35,13 @@ const Tabber = (props) => {
     E: [],
   };
 
+  const [copyValue, setCopyValue] = useState("");
+
   const [stringValues, setStringValues] = useState(
     queryParams ? queryParams : defaultState,
   );
+
+  const tabString = createTabString(stringValues);
 
   useEffect(() => {
     setQueryParams(stringValues);
@@ -71,7 +77,12 @@ const Tabber = (props) => {
           changeValue={changeValue}
         />
       ))}
-      <TabRenderer stringValues={stringValues} />
+      <CopyToClipboard text={tabString} onCopy={() => setCopyValue(true)}>
+        <button className="tabber__copy-button" type="button">
+          Copy
+        </button>
+      </CopyToClipboard>
+      <TabRenderer tabString={tabString} />
     </div>
   );
 };

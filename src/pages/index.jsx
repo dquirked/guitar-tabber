@@ -6,7 +6,8 @@ import Tabber from "../components/Tabber/Tabber.jsx";
 
 const IndexPage = () => (
   <MainLayout>
-    <Seo title="Home" />
+    <Seo title="Guitar Tabber" />
+    <p>Welcome to guitar tabber. I'm testing if this is useful.</p>
     <Tabber />
   </MainLayout>
 );

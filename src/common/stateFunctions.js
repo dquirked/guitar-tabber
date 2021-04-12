@@ -29,3 +29,11 @@ export const changeValueOfString = (string, index, value, state) => {
     state,
   );
 };
+
+export const createTabString = (stringValues) => {
+  return R.compose(
+    R.reduce((acc, value) => acc + `${value}\n`, ""),
+    R.values,
+    R.map(R.reduce(R.concat, "")),
+  )(stringValues);
+};

@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { objectOf, arrayOf, string } from "prop-types";
+import { string } from "prop-types";
 import { Controlled as CodeMirror } from "react-codemirror2";
 
 import "./tab-renderer.scss";
 import "codemirror/lib/codemirror.css";
 
 const propTypes = {
-  stringValues: objectOf(arrayOf(string.isRequired)).isRequired,
+  tabString: string.isRequired,
 };
 
 const TabRenderer = (props) => {
-  const { stringValues } = props;
+  const { tabString } = props;
 
   const [hasMounted, setHasMounted] = useState(false);
 
@@ -19,14 +19,7 @@ const TabRenderer = (props) => {
     setHasMounted(true);
   }, []);
 
-  const formattedStrings = Object.keys(stringValues).map((key, i) => {
-    return stringValues[key].reduce((acc, curr) => acc + curr, "");
-  });
-
-  const singleString = formattedStrings.reduce(
-    (acc, curr) => acc + `${curr}\n`,
-    "",
-  );
+  // const tabString = createTabString(stringValues);
 
   const formatLineNumber = (num) => {
     switch (num) {
@@ -60,7 +53,7 @@ const TabRenderer = (props) => {
             lineNumbers: true,
             lineNumberFormatter: formatLineNumber,
           }}
-          value={singleString}
+          value={tabString}
         />
       )}
     </div>
