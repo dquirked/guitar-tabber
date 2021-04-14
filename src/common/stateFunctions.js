@@ -77,5 +77,8 @@ export const bringStringValuesForward = (string, longestPos, state) => {
 };
 
 export const addSingleValueToAllStrings = (state) => {
-  return R.map((values) => [...values, "-"], state);
+  return R.map(
+    (values) => [...values, "-", "-", "-", "-", "-", "-", "-", "-", "|"],
+    state,
+  );
 };
