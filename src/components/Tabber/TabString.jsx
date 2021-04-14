@@ -80,7 +80,7 @@ const TabString = (props) => {
                   {value}
                 </button>
               )}
-              <div>
+              {/* <div>
                 <button
                   className="tab-string__remove"
                   type="button"
@@ -88,7 +88,7 @@ const TabString = (props) => {
                 >
                   x
                 </button>
-              </div>
+              </div> */}
             </div>
           ))}
         </div>

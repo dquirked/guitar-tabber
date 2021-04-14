@@ -15,6 +15,7 @@ import {
   clearAllStringValues,
   bringStringValuesForward,
   findLongestPosition,
+  addSingleValueToAllStrings,
 } from "../../common/stateFunctions.js";
 import "./tabber.scss";
 
@@ -49,9 +50,9 @@ const Tabber = (props) => {
     stringValues,
   ]);
 
-  console.log(longestPosition);
-
-  const tabString = createTabString(stringValues);
+  const tabString = useMemo(() => createTabString(stringValues), [
+    stringValues,
+  ]);
 
   useEffect(() => {
     // console.log(new TextEncoder().encode(stringValues).buffer);
@@ -94,20 +95,37 @@ const Tabber = (props) => {
     });
   };
 
+  const addSingleValueToStrings = () => {
+    setStringValues((prevState) => {
+      return addSingleValueToAllStrings(prevState);
+    });
+  };
+
   return (
     <div className="tabber">
-      {Object.keys(stringValues).map((key, i) => (
-        <TabString
-          key={key}
-          stringName={key}
-          values={stringValues[key]}
-          removeValue={removeValue}
-          addValue={addValue}
-          changeValue={changeValue}
-          clearValues={clearValues}
-          bringStringForward={bringStringForward}
-        />
-      ))}
+      <div className="tabber__controls">
+        <div className="tabber__string-wrapper">
+          {Object.keys(stringValues).map((key, i) => (
+            <TabString
+              key={key}
+              stringName={key}
+              values={stringValues[key]}
+              removeValue={removeValue}
+              addValue={addValue}
+              changeValue={changeValue}
+              clearValues={clearValues}
+              bringStringForward={bringStringForward}
+            />
+          ))}
+        </div>
+        <button
+          onClick={() => addSingleValueToStrings()}
+          className="tabber__new-column-btn"
+          type="button"
+        >
+          +
+        </button>
+      </div>
       <CopyToClipboard text={tabString} onCopy={() => setCopyValue(true)}>
         <button className="tabber__copy-button" type="button">
           copy
