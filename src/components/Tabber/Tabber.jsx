@@ -11,6 +11,8 @@ import {
   addValueToString,
   changeValueOfString,
   createTabString,
+  clearStringValues,
+  clearAllStringValues,
 } from "../../common/stateFunctions.js";
 import "./tabber.scss";
 
@@ -44,6 +46,7 @@ const Tabber = (props) => {
   const tabString = createTabString(stringValues);
 
   useEffect(() => {
+    // console.log(new TextEncoder().encode(stringValues).buffer);
     setQueryParams(stringValues);
   }, [stringValues, setQueryParams]);
 
@@ -65,6 +68,16 @@ const Tabber = (props) => {
     });
   };
 
+  const clearValues = (string) => {
+    setStringValues((prevState) => {
+      return clearStringValues(string, prevState);
+    });
+  };
+
+  const clearAll = () => {
+    return setStringValues((prevState) => clearAllStringValues(prevState));
+  };
+
   return (
     <div className="tabber">
       {Object.keys(stringValues).map((key, i) => (
@@ -75,13 +88,21 @@ const Tabber = (props) => {
           removeValue={removeValue}
           addValue={addValue}
           changeValue={changeValue}
+          clearValues={clearValues}
         />
       ))}
       <CopyToClipboard text={tabString} onCopy={() => setCopyValue(true)}>
         <button className="tabber__copy-button" type="button">
-          Copy
+          copy
         </button>
       </CopyToClipboard>
+      <button
+        className="tabber__clear-all-btn"
+        onClick={() => clearAll()}
+        type="button"
+      >
+        clear all
+      </button>
       <TabRenderer tabString={tabString} />
     </div>
   );

@@ -10,12 +10,20 @@ const propTypes = {
   removeValue: func.isRequired,
   addValue: func.isRequired,
   changeValue: func.isRequired,
+  clearValues: func.isRequired,
 };
 
 import "./tab-string.scss";
 
 const TabString = (props) => {
-  const { stringName, values, removeValue, addValue, changeValue } = props;
+  const {
+    stringName,
+    values,
+    removeValue,
+    addValue,
+    changeValue,
+    clearValues,
+  } = props;
 
   const [hasMounted, setHasMounted] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -92,6 +100,16 @@ const TabString = (props) => {
         }}
         value={inputValue}
       />
+      <button className="tab-string__bring-forward-btn" type="button">
+        »
+      </button>
+      <button
+        className="tab-string__clear-btn"
+        onClick={() => clearValues(stringName)}
+        type="button"
+      >
+        clear
+      </button>
     </div>
   );
 };

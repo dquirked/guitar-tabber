@@ -24,10 +24,12 @@
   height: 45px;
   flex: 0 0 auto;
   justify-content: center;
+  margin-left: 5px;
 }
 
 .tab-string__input {
   max-width: 30px;
+  margin-left: 5px;
 }
 
 .tab-string__remove {
@@ -38,4 +40,12 @@
   padding: 0;
   background: transparent;
   border: none;
+}
+
+.tab-string__clear-btn {
+  margin-left: 5px;
+}
+
+.tab-string__bring-forward-btn {
+  margin-left: 5px;
 }

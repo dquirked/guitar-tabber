@@ -37,3 +37,16 @@ export const createTabString = (stringValues) => {
     R.map(R.reduce(R.concat, "")),
   )(stringValues);
 };
+
+export const clearStringValues = (string, state) => {
+  return R.evolve(
+    {
+      [string]: (values) => [],
+    },
+    state,
+  );
+};
+
+export const clearAllStringValues = (state) => {
+  return R.map(() => [], state);
+};
