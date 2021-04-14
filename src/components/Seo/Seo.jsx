@@ -75,6 +75,10 @@ function Seo({ description, lang, meta, title }) {
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap"
         rel="stylesheet"
       />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap"
+        rel="stylesheet"
+      />
     </Helmet>
   );
 }

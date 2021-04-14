@@ -56,7 +56,7 @@ export const findLongestPosition = (state) => {
     R.reduce(
       (acc, stringValues) =>
         stringValues.length - 1 > acc ? stringValues.length - 1 : acc,
-      0,
+      -1,
     ),
     R.values,
   )(state);
@@ -65,12 +65,10 @@ export const findLongestPosition = (state) => {
 export const bringStringValuesForward = (string, longestPos, state) => {
   return R.evolve(
     {
-      [string]: (values) => {
-        return R.concat(
-          values,
-          Array(longestPos - (values.length - 1)).fill("-"),
-        );
-      },
+      [string]: (values) =>
+        longestPos === -1
+          ? []
+          : R.concat(values, Array(longestPos - (values.length - 1)).fill("-")),
     },
     state,
   );

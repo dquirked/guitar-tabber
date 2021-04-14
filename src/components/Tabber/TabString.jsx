@@ -7,7 +7,6 @@ import useClickAway from "../../common/useClickAway.jsx";
 const propTypes = {
   stringName: string.isRequired,
   values: arrayOf(string.isRequired).isRequired,
-  removeValue: func.isRequired,
   addValue: func.isRequired,
   changeValue: func.isRequired,
   clearValues: func.isRequired,
@@ -20,7 +19,6 @@ const TabString = (props) => {
   const {
     stringName,
     values,
-    removeValue,
     addValue,
     changeValue,
     clearValues,
@@ -80,15 +78,6 @@ const TabString = (props) => {
                   {value}
                 </button>
               )}
-              {/* <div>
-                <button
-                  className="tab-string__remove"
-                  type="button"
-                  onClick={() => removeValue(stringName, i)}
-                >
-                  x
-                </button>
-              </div> */}
             </div>
           ))}
         </div>

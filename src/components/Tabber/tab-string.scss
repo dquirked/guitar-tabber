@@ -3,6 +3,7 @@
 .tab-string {
   display: flex;
   padding-bottom: 3px;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .tab-string__string-name {
@@ -21,8 +22,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 45px;
-  flex: 0 0 auto;
+  height: 20px;
+  flex: 1 1 auto;
   justify-content: center;
   margin-left: 5px;
 }
@@ -37,7 +38,7 @@
 }
 
 .tab-string__change-btn {
-  padding: 5px;
+  padding: 0 5px;
   background: transparent;
   border: none;
 }
