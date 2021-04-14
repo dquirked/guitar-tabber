@@ -50,3 +50,28 @@ export const clearStringValues = (string, state) => {
 export const clearAllStringValues = (state) => {
   return R.map(() => [], state);
 };
+
+export const findLongestPosition = (state) => {
+  return R.compose(
+    R.reduce(
+      (acc, stringValues) =>
+        stringValues.length - 1 > acc ? stringValues.length - 1 : acc,
+      0,
+    ),
+    R.values,
+  )(state);
+};
+
+export const bringStringValuesForward = (string, longestPos, state) => {
+  return R.evolve(
+    {
+      [string]: (values) => {
+        return R.concat(
+          values,
+          Array(longestPos - (values.length - 1)).fill("-"),
+        );
+      },
+    },
+    state,
+  );
+};

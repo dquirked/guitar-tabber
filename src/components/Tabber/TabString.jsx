@@ -11,6 +11,7 @@ const propTypes = {
   addValue: func.isRequired,
   changeValue: func.isRequired,
   clearValues: func.isRequired,
+  bringStringForward: func.isRequired,
 };
 
 import "./tab-string.scss";
@@ -23,6 +24,7 @@ const TabString = (props) => {
     addValue,
     changeValue,
     clearValues,
+    bringStringForward,
   } = props;
 
   const [hasMounted, setHasMounted] = useState(false);
@@ -100,7 +102,11 @@ const TabString = (props) => {
         }}
         value={inputValue}
       />
-      <button className="tab-string__bring-forward-btn" type="button">
+      <button
+        onClick={() => bringStringForward(stringName)}
+        className="tab-string__bring-forward-btn"
+        type="button"
+      >
         »
       </button>
       <button

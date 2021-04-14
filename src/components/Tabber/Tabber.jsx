@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {} from "prop-types";
 import { useQueryParams, ArrayParam, withDefault } from "use-query-params";
 
@@ -13,6 +13,8 @@ import {
   createTabString,
   clearStringValues,
   clearAllStringValues,
+  bringStringValuesForward,
+  findLongestPosition,
 } from "../../common/stateFunctions.js";
 import "./tabber.scss";
 
@@ -42,6 +44,12 @@ const Tabber = (props) => {
   const [stringValues, setStringValues] = useState(
     queryParams ? queryParams : defaultState,
   );
+
+  const longestPosition = useMemo(() => findLongestPosition(stringValues), [
+    stringValues,
+  ]);
+
+  console.log(longestPosition);
 
   const tabString = createTabString(stringValues);
 
@@ -75,7 +83,15 @@ const Tabber = (props) => {
   };
 
   const clearAll = () => {
-    return setStringValues((prevState) => clearAllStringValues(prevState));
+    setStringValues((prevState) => {
+      return clearAllStringValues(prevState);
+    });
+  };
+
+  const bringStringForward = (string) => {
+    setStringValues((prevState) => {
+      return bringStringValuesForward(string, longestPosition, prevState);
+    });
   };
 
   return (
@@ -89,6 +105,7 @@ const Tabber = (props) => {
           addValue={addValue}
           changeValue={changeValue}
           clearValues={clearValues}
+          bringStringForward={bringStringForward}
         />
       ))}
       <CopyToClipboard text={tabString} onCopy={() => setCopyValue(true)}>
