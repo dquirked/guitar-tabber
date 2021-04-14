@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useMemo } from "react";
 import {} from "prop-types";
-import { useQueryParams, ArrayParam, withDefault } from "use-query-params";
+import {
+  useQueryParams,
+  DelimitedArrayParam,
+  withDefault,
+} from "use-query-params";
 
 import TabString from "./TabString.jsx";
 import TabRenderer from "../TabRenderer/TabRenderer.jsx";
@@ -23,12 +27,12 @@ const propTypes = {};
 
 const Tabber = (props) => {
   const [queryParams, setQueryParams] = useQueryParams({
-    e: withDefault(ArrayParam, []),
-    B: withDefault(ArrayParam, []),
-    G: withDefault(ArrayParam, []),
-    D: withDefault(ArrayParam, []),
-    A: withDefault(ArrayParam, []),
-    E: withDefault(ArrayParam, []),
+    e: withDefault(DelimitedArrayParam, []),
+    B: withDefault(DelimitedArrayParam, []),
+    G: withDefault(DelimitedArrayParam, []),
+    D: withDefault(DelimitedArrayParam, []),
+    A: withDefault(DelimitedArrayParam, []),
+    E: withDefault(DelimitedArrayParam, []),
   });
 
   const defaultState = {
