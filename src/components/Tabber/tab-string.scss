@@ -3,7 +3,6 @@
 .tab-string {
   display: flex;
   padding-bottom: 3px;
-  font-family: 'Roboto Mono', monospace;
 }
 
 .tab-string__string-name {
@@ -41,6 +40,8 @@
   padding: 0 5px;
   background: transparent;
   border: none;
+  font-family: 'Roboto', sans-serif;
+  min-width: 17.5px;
 }
 
 .tab-string__clear-btn {

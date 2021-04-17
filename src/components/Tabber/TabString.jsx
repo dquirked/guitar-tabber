@@ -61,6 +61,7 @@ const TabString = (props) => {
                     autoFocus
                     className="tab-string__input"
                     type="text"
+                    maxLength="1"
                     onBlur={(e) => {
                       e.target.value === ""
                         ? null

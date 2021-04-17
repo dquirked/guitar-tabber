@@ -1,5 +1,7 @@
 import * as R from "ramda";
 
+const findIndex = (array) => array.length - 1;
+
 export const removeValueFromString = (string, index, state) => {
   return R.evolve(
     {
@@ -51,11 +53,12 @@ export const clearAllStringValues = (state) => {
   return R.map(() => [], state);
 };
 
+//start at -1 because 0 is the first index
 export const findLongestPosition = (state) => {
   return R.compose(
     R.reduce(
       (acc, stringValues) =>
-        stringValues.length - 1 > acc ? stringValues.length - 1 : acc,
+        findIndex(stringValues) > acc ? findIndex(stringValues) : acc,
       -1,
     ),
     R.values,
@@ -68,7 +71,7 @@ export const bringStringValuesForward = (string, longestPos, state) => {
       [string]: (values) =>
         longestPos === -1
           ? []
-          : R.concat(values, Array(longestPos - (values.length - 1)).fill("-")),
+          : R.concat(values, Array(longestPos - findIndex(values)).fill("-")),
     },
     state,
   );
