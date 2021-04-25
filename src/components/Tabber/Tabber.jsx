@@ -48,6 +48,8 @@ const Tabber = (props) => {
       : defaultState,
   );
 
+  console.log(JSON.stringify(stringValues));
+
   const longestPosition = useMemo(() => findLongestPosition(stringValues), [
     stringValues,
   ]);

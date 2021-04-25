@@ -1,3 +1,7 @@
+require("dotenv").config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
+
 module.exports = {
   siteMetadata: {
     title: "Gatsby Default Starter",
@@ -10,6 +14,13 @@ module.exports = {
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-image",
     {
+      resolve: "gatsby-source-contentful",
+      options: {
+        spaceId: process.env.SPACE_ID,
+        accessToken: process.env.CONTENT_DELIVERY_API,
+      },
+    },
+    {
       resolve: "gatsby-source-filesystem",
       options: {
         name: "images",
@@ -17,7 +28,7 @@ module.exports = {
       },
     },
     "gatsby-transformer-sharp",
-	"gatsby-plugin-use-query-params",
+    "gatsby-plugin-use-query-params",
     "gatsby-plugin-sharp",
     {
       resolve: "gatsby-plugin-manifest",
