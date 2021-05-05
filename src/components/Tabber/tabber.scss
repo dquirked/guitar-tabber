@@ -8,8 +8,8 @@
 
 .tabber__string-wrapper {
   display: flex;
-  flex-direction: column;
   align-items: flex-start;
+  flex-direction: column;
 }
 
 .tabber__new-column-btn {
@@ -20,6 +20,6 @@
   margin-top: 10px;
 }
 
-.tabber__clear-all-btn{
+.tabber__clear-all-btn {
   margin-left: 5px;
 }
