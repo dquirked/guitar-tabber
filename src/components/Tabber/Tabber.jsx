@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo } from "react";
 import {} from "prop-types";
 import {
-  useQueryParams,
-  DelimitedArrayParam,
+  useQueryParam,
+  DelimitedNumericArrayParam,
   withDefault,
 } from "use-query-params";
-
+import pako from "pako";
 import TabString from "./TabString.jsx";
 import TabRenderer from "../TabRenderer/TabRenderer.jsx";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -26,14 +26,10 @@ import "./tabber.scss";
 const propTypes = {};
 
 const Tabber = (props) => {
-  const [queryParams, setQueryParams] = useQueryParams({
-    e: withDefault(DelimitedArrayParam, []),
-    B: withDefault(DelimitedArrayParam, []),
-    G: withDefault(DelimitedArrayParam, []),
-    D: withDefault(DelimitedArrayParam, []),
-    A: withDefault(DelimitedArrayParam, []),
-    E: withDefault(DelimitedArrayParam, []),
-  });
+  const [queryParam, setQueryParam] = useQueryParam(
+    "data",
+    DelimitedNumericArrayParam,
+  );
 
   const defaultState = {
     e: [],
@@ -47,7 +43,9 @@ const Tabber = (props) => {
   const [copyValue, setCopyValue] = useState("");
 
   const [stringValues, setStringValues] = useState(
-    queryParams ? queryParams : defaultState,
+    queryParam
+      ? JSON.parse(pako.inflate(Uint8Array.from(queryParam), { to: "string" }))
+      : defaultState,
   );
 
   const longestPosition = useMemo(() => findLongestPosition(stringValues), [
@@ -59,9 +57,11 @@ const Tabber = (props) => {
   ]);
 
   useEffect(() => {
-    // console.log(new TextEncoder().encode(stringValues).buffer);
-    setQueryParams(stringValues);
-  }, [stringValues, setQueryParams]);
+    //if the stringData is not empty
+    if (longestPosition !== -1) {
+      setQueryParam(pako.deflate(JSON.stringify(stringValues)));
+    }
+  }, [stringValues, setQueryParam, longestPosition]);
 
   const removeValue = (string, value) => {
     setStringValues((prevState) => {
