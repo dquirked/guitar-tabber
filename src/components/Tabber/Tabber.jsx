@@ -57,9 +57,14 @@ const Tabber = (props) => {
   ]);
 
   useEffect(() => {
-    //if the stringData is not empty
-    if (longestPosition !== -1) {
-      setQueryParam(pako.deflate(JSON.stringify(stringValues)));
+    switch (longestPosition) {
+      case -1:
+        //if the stringData is empty
+        window.history.pushState({}, "", "/guitar-tabber");
+        break;
+      default:
+        setQueryParam(pako.deflate(JSON.stringify(stringValues)));
+        break;
     }
   }, [stringValues, setQueryParam, longestPosition]);
 

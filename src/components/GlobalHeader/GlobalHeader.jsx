@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const Header = ({ siteTitle }) => (
   <header>
     <div>
-      <h1>Guitar Tabber</h1>
+      <h1>Welcome to Devin's Website.</h1>
     </div>
   </header>
 );
