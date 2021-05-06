@@ -1,4 +1,5 @@
 import * as R from "ramda";
+import pako from "pako";
 
 const findIndex = (array) => array.length - 1;
 
@@ -77,9 +78,18 @@ export const bringStringValuesForward = (string, longestPos, state) => {
   );
 };
 
+// TODO: Rename this function
 export const addSingleValueToAllStrings = (state) => {
   return R.map(
     (values) => [...values, "-", "-", "-", "-", "-", "-", "-", "-", "|"],
     state,
   );
+};
+
+export const decompressData = (data) => {
+  return JSON.parse(pako.inflate(Uint8Array.from(data), { to: "string" }));
+};
+
+export const compressData = (data) => {
+  return pako.deflate(JSON.stringify(data));
 };

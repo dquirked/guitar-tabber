@@ -1,14 +1,10 @@
 import React, { useState, useEffect, useMemo } from "react";
 import {} from "prop-types";
-import {
-  useQueryParam,
-  DelimitedNumericArrayParam,
-  withDefault,
-} from "use-query-params";
-import pako from "pako";
+import { useQueryParam, DelimitedNumericArrayParam } from "use-query-params";
 import TabString from "./TabString.jsx";
 import TabRenderer from "../TabRenderer/TabRenderer.jsx";
 import { CopyToClipboard } from "react-copy-to-clipboard";
+import * as R from "ramda";
 
 import {
   removeValueFromString,
@@ -20,6 +16,8 @@ import {
   bringStringValuesForward,
   findLongestPosition,
   addSingleValueToAllStrings,
+  compressData,
+  decompressData,
 } from "../../common/stateFunctions.js";
 import "./tabber.scss";
 
@@ -31,22 +29,32 @@ const Tabber = (props) => {
     DelimitedNumericArrayParam,
   );
 
-  const defaultState = {
-    e: [],
-    B: [],
-    G: [],
-    D: [],
-    A: [],
-    E: [],
-  };
+  const defaultState = useMemo(() => {
+    return {
+      e: [],
+      B: [],
+      G: [],
+      D: [],
+      A: [],
+      E: [],
+    };
+  }, []);
 
   const [copyValue, setCopyValue] = useState("");
 
-  const [stringValues, setStringValues] = useState(
-    queryParam
-      ? JSON.parse(pako.inflate(Uint8Array.from(queryParam), { to: "string" }))
-      : defaultState,
-  );
+  const [stringValues, setStringValues] = useState(() => {
+    let parsedData = undefined;
+
+    if (queryParam) {
+      try {
+        parsedData = decompressData(queryParam);
+      } catch (e) {
+        console.warn(e);
+      }
+    }
+
+    return parsedData ? parsedData : defaultState;
+  });
 
   const longestPosition = useMemo(() => findLongestPosition(stringValues), [
     stringValues,
@@ -57,16 +65,10 @@ const Tabber = (props) => {
   ]);
 
   useEffect(() => {
-    switch (longestPosition) {
-      case -1:
-        //if the stringData is empty
-        window.history.pushState({}, "", "/guitar-tabber");
-        break;
-      default:
-        setQueryParam(pako.deflate(JSON.stringify(stringValues)));
-        break;
-    }
-  }, [stringValues, setQueryParam, longestPosition]);
+    R.equals(defaultState, stringValues)
+      ? window.history.pushState({}, "", "/guitar-tabber")
+      : setQueryParam(compressData(stringValues));
+  }, [stringValues, setQueryParam, longestPosition, defaultState]);
 
   const removeValue = (string, value) => {
     setStringValues((prevState) => {
