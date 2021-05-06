@@ -13,13 +13,13 @@ module.exports = {
     "gatsby-plugin-sass",
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-image",
-    {
-      resolve: "gatsby-source-contentful",
-      options: {
-        spaceId: process.env.SPACE_ID,
-        accessToken: process.env.CONTENT_DELIVERY_API,
-      },
-    },
+    // {
+    //   resolve: "gatsby-source-contentful",
+    //   options: {
+    //     spaceId: process.env.SPACE_ID,
+    //     accessToken: process.env.CONTENT_DELIVERY_API,
+    //   },
+    // },
     {
       resolve: "gatsby-source-filesystem",
       options: {
