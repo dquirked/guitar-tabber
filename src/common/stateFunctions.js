@@ -78,7 +78,7 @@ export const bringStringValuesForward = (string, longestPos, state) => {
   );
 };
 
-// TODO: Rename this function
+// TODO: Rename this function maybe addUserdefinedValues
 export const addSingleValueToAllStrings = (state) => {
   return R.map(
     (values) => [...values, "-", "-", "-", "-", "-", "-", "-", "-", "|"],
