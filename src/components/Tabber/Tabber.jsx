@@ -3,8 +3,8 @@ import {} from "prop-types";
 import { useQueryParam, DelimitedNumericArrayParam } from "use-query-params";
 import TabString from "./TabString.jsx";
 import TabRenderer from "../TabRenderer/TabRenderer.jsx";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import * as R from "ramda";
+import { useClipboard } from "use-clipboard-copy";
 
 import {
   removeValueFromString,
@@ -40,7 +40,9 @@ const Tabber = (props) => {
     };
   }, []);
 
-  const [copyValue, setCopyValue] = useState("");
+  const clipboard = useClipboard(
+    { copiedTimeout: 1000 }, // timeout duration in milliseconds
+  );
 
   const [stringValues, setStringValues] = useState(() => {
     let parsedData = undefined;
@@ -137,11 +139,13 @@ const Tabber = (props) => {
           +
         </button>
       </div>
-      <CopyToClipboard text={tabString} onCopy={() => setCopyValue(true)}>
-        <button className="tabber__copy-button" type="button">
-          copy
-        </button>
-      </CopyToClipboard>
+      <button
+        onClick={() => clipboard.copy(tabString)}
+        className="tabber__copy-button"
+        type="button"
+      >
+        {clipboard.copied ? "copied!" : "copy"}
+      </button>
       <button
         className="tabber__clear-all-btn"
         onClick={() => clearAll()}
