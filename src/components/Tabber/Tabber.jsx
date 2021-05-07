@@ -5,7 +5,7 @@ import TabString from "./TabString.jsx";
 import TabRenderer from "../TabRenderer/TabRenderer.jsx";
 import * as R from "ramda";
 import { useClipboard } from "use-clipboard-copy";
-
+import defaultStateObj from "./defaultState.js";
 import {
   removeValueFromString,
   addValueToString,
@@ -30,14 +30,7 @@ const Tabber = (props) => {
   );
 
   const defaultState = useMemo(() => {
-    return {
-      e: ["-", "-", "-", "-", "-", "-", "-", "-", "|"],
-      B: ["-", "-", "-", "-", "-", "-", "-", "-", "|"],
-      G: ["-", "-", "-", "-", "-", "-", "-", "-", "|"],
-      D: ["-", "-", "-", "-", "-", "-", "-", "-", "|"],
-      A: ["-", "-", "-", "-", "-", "-", "-", "-", "|"],
-      E: ["-", "-", "-", "-", "-", "-", "-", "-", "|"],
-    };
+    return defaultStateObj;
   }, []);
 
   const clipboard = useClipboard(
