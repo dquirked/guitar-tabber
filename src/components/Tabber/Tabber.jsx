@@ -107,6 +107,39 @@ const Tabber = (props) => {
     });
   };
 
+  const renderBottomControls = () => {
+    return (
+      <>
+        <button
+          onClick={() => clipboard.copy(tabString)}
+          className="tabber__copy-button"
+          type="button"
+        >
+          {clipboard.copied ? "copied!" : "copy"}
+        </button>
+        <button
+          className="tabber__clear-all-btn"
+          onClick={() => clearAll()}
+          type="button"
+        >
+          clear all
+        </button>
+      </>
+    );
+  };
+
+  const renderAddValue = () => {
+    return (
+      <button
+        onClick={() => addSingleValueToStrings()}
+        className="tabber__new-column-btn"
+        type="button"
+      >
+        +
+      </button>
+    );
+  };
+
   return (
     <div className="tabber">
       <div className="tabber__controls">
@@ -124,28 +157,7 @@ const Tabber = (props) => {
             />
           ))}
         </div>
-        <button
-          onClick={() => addSingleValueToStrings()}
-          className="tabber__new-column-btn"
-          type="button"
-        >
-          +
-        </button>
       </div>
-      <button
-        onClick={() => clipboard.copy(tabString)}
-        className="tabber__copy-button"
-        type="button"
-      >
-        {clipboard.copied ? "copied!" : "copy"}
-      </button>
-      <button
-        className="tabber__clear-all-btn"
-        onClick={() => clearAll()}
-        type="button"
-      >
-        clear all
-      </button>
       <TabRenderer tabString={tabString} />
     </div>
   );

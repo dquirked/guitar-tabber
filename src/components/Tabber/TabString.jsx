@@ -42,6 +42,36 @@ const TabString = (props) => {
     setInputValue("");
   }, [values]);
 
+  const renderStringControls = () => {
+    return (
+      <>
+        <input
+          className="tab-string__input"
+          type="text"
+          onChange={(e) => setInputValue(e.target.value)}
+          onBlur={(e) => {
+            e.target.value === "" ? null : addValue(stringName, e.target.value);
+          }}
+          value={inputValue}
+        />
+        <button
+          onClick={() => bringStringForward(stringName)}
+          className="tab-string__bring-forward-btn"
+          type="button"
+        >
+          »
+        </button>
+        <button
+          className="tab-string__clear-btn"
+          onClick={() => clearValues(stringName)}
+          type="button"
+        >
+          clear
+        </button>
+      </>
+    );
+  };
+
   return !hasMounted ? null : (
     <div className="tab-string">
       <div className="tab-string__string-name">
@@ -83,29 +113,6 @@ const TabString = (props) => {
           ))}
         </div>
       )}
-      <input
-        className="tab-string__input"
-        type="text"
-        onChange={(e) => setInputValue(e.target.value)}
-        onBlur={(e) => {
-          e.target.value === "" ? null : addValue(stringName, e.target.value);
-        }}
-        value={inputValue}
-      />
-      <button
-        onClick={() => bringStringForward(stringName)}
-        className="tab-string__bring-forward-btn"
-        type="button"
-      >
-        »
-      </button>
-      <button
-        className="tab-string__clear-btn"
-        onClick={() => clearValues(stringName)}
-        type="button"
-      >
-        clear
-      </button>
     </div>
   );
 };
