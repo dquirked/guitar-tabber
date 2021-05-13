@@ -93,3 +93,11 @@ export const decompressData = (data) => {
 export const compressData = (data) => {
   return pako.deflate(JSON.stringify(data));
 };
+
+export const updateTabStringContext = (id, tabString, state) => {
+  return R.assoc(id, tabString, state);
+};
+
+export const concatTabStrings = (tabStringContext) => {
+  return R.compose(R.reduce(R.concat, ""), R.values)(tabStringContext);
+};

@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { string } from "prop-types";
+import React, { useState, useEffect, useMemo } from "react";
 import { Controlled as CodeMirror } from "react-codemirror2";
+import { useTabStringContext } from "../../common/TabStringContext.jsx";
+import { concatTabStrings } from "../../common/stateFunctions.js";
+import * as R from "ramda";
 
 import "./tab-renderer.scss";
 import "codemirror/lib/codemirror.css";
 
-const propTypes = {
-  tabString: string.isRequired,
-};
-
 const TabRenderer = (props) => {
-  const { tabString } = props;
+  const [tabStringContext, setTabStringContext] = useTabStringContext();
 
   const [hasMounted, setHasMounted] = useState(false);
+
+  const concatedTabStrings = useMemo(() => concatTabStrings(tabStringContext), [
+    tabStringContext,
+  ]);
 
   useEffect(() => {
     //prevent hydration problems
     setHasMounted(true);
   }, []);
-
-  // const tabString = createTabString(stringValues);
 
   const formatLineNumber = (num) => {
     switch (num) {
@@ -46,19 +46,16 @@ const TabRenderer = (props) => {
 
   return !hasMounted ? null : (
     <div className="tab-renderer">
-      {hasMounted && (
-        <CodeMirror
-          editorDidMount={onCodeMirrorMount}
-          options={{
-            lineNumbers: true,
-            lineNumberFormatter: formatLineNumber,
-          }}
-          value={tabString}
-        />
-      )}
+      <CodeMirror
+        editorDidMount={onCodeMirrorMount}
+        options={{
+          lineNumbers: true,
+          // lineNumberFormatter: formatLineNumber,
+        }}
+        value={concatedTabStrings}
+      />
     </div>
   );
 };
 
-TabRenderer.propTypes = propTypes;
 export default TabRenderer;

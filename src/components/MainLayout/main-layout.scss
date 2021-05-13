@@ -18,3 +18,14 @@ body {
 button {
   cursor: pointer;
 }
+
+//code mirror overides
+.CodeMirror {
+  height: auto !important;
+}
+
+.CodeMirror-code {
+  background-color: #fafafa !important;
+  padding-top: 8px;
+  padding-bottom: 0px;
+}

@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useMemo } from "react";
-import {} from "prop-types";
+import { string } from "prop-types";
 import { useQueryParam, DelimitedNumericArrayParam } from "use-query-params";
 import TabString from "./TabString.jsx";
-import TabRenderer from "../TabRenderer/TabRenderer.jsx";
 import * as R from "ramda";
 import { useClipboard } from "use-clipboard-copy";
+import { useTabStringContext } from "../../common/TabStringContext.jsx";
 import defaultStateObj from "./defaultState.js";
 import {
   removeValueFromString,
@@ -18,14 +18,19 @@ import {
   addSingleValueToAllStrings,
   compressData,
   decompressData,
+  updateTabStringContext,
 } from "../../common/stateFunctions.js";
 import "./tabber.scss";
 
-const propTypes = {};
+const propTypes = { id: string.isRequired };
 
 const Tabber = (props) => {
+  const { id } = props;
+
+  const [tabStringContext, setTabStringContext] = useTabStringContext();
+
   const [queryParam, setQueryParam] = useQueryParam(
-    "data",
+    id,
     DelimitedNumericArrayParam,
   );
 
@@ -60,8 +65,14 @@ const Tabber = (props) => {
   ]);
 
   useEffect(() => {
+    setTabStringContext((prevState) => {
+      return updateTabStringContext(id, tabString, prevState);
+    });
+  }, [tabString, setTabStringContext, id]);
+
+  useEffect(() => {
     R.equals(defaultState, stringValues)
-      ? window.history.pushState({}, "", "/guitar-tabber")
+      ? window.history.replaceState({}, "", "/guitar-tabber")
       : setQueryParam(compressData(stringValues));
   }, [stringValues, setQueryParam, longestPosition, defaultState]);
 
@@ -158,7 +169,6 @@ const Tabber = (props) => {
           ))}
         </div>
       </div>
-      <TabRenderer tabString={tabString} />
     </div>
   );
 };
