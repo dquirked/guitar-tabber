@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { string, func, arrayOf } from "prop-types";
 import useClickAway from "../../common/useClickAway.jsx";
+import cx from "classnames";
 
 const propTypes = {
   stringName: string.isRequired,
@@ -42,6 +43,36 @@ const TabString = (props) => {
     setInputValue("");
   }, [values]);
 
+  const renderStringControls = () => {
+    return (
+      <>
+        <input
+          className="tab-string__input"
+          type="text"
+          onChange={(e) => setInputValue(e.target.value)}
+          onBlur={(e) => {
+            e.target.value === "" ? null : addValue(stringName, e.target.value);
+          }}
+          value={inputValue}
+        />
+        <button
+          onClick={() => bringStringForward(stringName)}
+          className="tab-string__bring-forward-btn"
+          type="button"
+        >
+          »
+        </button>
+        <button
+          className="tab-string__clear-btn"
+          onClick={() => clearValues(stringName)}
+          type="button"
+        >
+          clear
+        </button>
+      </>
+    );
+  };
+
   return !hasMounted ? null : (
     <div className="tab-string">
       <div className="tab-string__string-name">
@@ -52,7 +83,10 @@ const TabString = (props) => {
           {values.map((value, i) => (
             <div
               ref={valueRef}
-              className="tab-string__string-value-wrapper"
+              className={cx("tab-string__string-value-wrapper", {
+                "tab-string__string-value-wrapper--two-digits":
+                  value.toString().length === 2,
+              })}
               key={i}
             >
               {editingIndex === i ? (
@@ -61,7 +95,7 @@ const TabString = (props) => {
                     autoFocus
                     className="tab-string__input"
                     type="text"
-                    maxLength="1"
+                    maxLength="2"
                     onBlur={(e) => {
                       e.target.value === ""
                         ? null
@@ -83,29 +117,6 @@ const TabString = (props) => {
           ))}
         </div>
       )}
-      <input
-        className="tab-string__input"
-        type="text"
-        onChange={(e) => setInputValue(e.target.value)}
-        onBlur={(e) => {
-          e.target.value === "" ? null : addValue(stringName, e.target.value);
-        }}
-        value={inputValue}
-      />
-      <button
-        onClick={() => bringStringForward(stringName)}
-        className="tab-string__bring-forward-btn"
-        type="button"
-      >
-        »
-      </button>
-      <button
-        className="tab-string__clear-btn"
-        onClick={() => clearValues(stringName)}
-        type="button"
-      >
-        clear
-      </button>
     </div>
   );
 };

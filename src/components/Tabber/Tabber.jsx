@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo } from "react";
-import {} from "prop-types";
+import { string } from "prop-types";
 import { useQueryParam, DelimitedNumericArrayParam } from "use-query-params";
 import TabString from "./TabString.jsx";
-import TabRenderer from "../TabRenderer/TabRenderer.jsx";
 import * as R from "ramda";
 import { useClipboard } from "use-clipboard-copy";
-import defaultStateObj from "./defaultState.js";
+import { useTabStringContext } from "../../common/TabStringContext.jsx";
+import getDefaultState from "./defaultState.js";
 import {
   removeValueFromString,
   addValueToString,
@@ -18,20 +18,21 @@ import {
   addSingleValueToAllStrings,
   compressData,
   decompressData,
+  updateTabStringContext,
 } from "../../common/stateFunctions.js";
 import "./tabber.scss";
 
-const propTypes = {};
+const propTypes = { id: string.isRequired };
 
 const Tabber = (props) => {
+  const { id } = props;
+
+  const [tabStringContext, setTabStringContext] = useTabStringContext();
+
   const [queryParam, setQueryParam] = useQueryParam(
-    "data",
+    id,
     DelimitedNumericArrayParam,
   );
-
-  const defaultState = useMemo(() => {
-    return defaultStateObj;
-  }, []);
 
   const clipboard = useClipboard(
     { copiedTimeout: 1000 }, // timeout duration in milliseconds
@@ -48,7 +49,7 @@ const Tabber = (props) => {
       }
     }
 
-    return parsedData ? parsedData : defaultState;
+    return parsedData ? parsedData : getDefaultState();
   });
 
   const longestPosition = useMemo(() => findLongestPosition(stringValues), [
@@ -60,10 +61,16 @@ const Tabber = (props) => {
   ]);
 
   useEffect(() => {
-    R.equals(defaultState, stringValues)
-      ? window.history.pushState({}, "", "/guitar-tabber")
-      : setQueryParam(compressData(stringValues));
-  }, [stringValues, setQueryParam, longestPosition, defaultState]);
+    setTabStringContext((prevState) => {
+      return updateTabStringContext(id, tabString, prevState);
+    });
+  }, [tabString, setTabStringContext, id]);
+
+  useEffect(() => {
+    if (!R.equals(stringValues, getDefaultState())) {
+      setQueryParam(compressData(stringValues));
+    }
+  }, [stringValues, setQueryParam]);
 
   const removeValue = (string, value) => {
     setStringValues((prevState) => {
@@ -107,6 +114,39 @@ const Tabber = (props) => {
     });
   };
 
+  const renderBottomControls = () => {
+    return (
+      <>
+        <button
+          onClick={() => clipboard.copy(tabString)}
+          className="tabber__copy-button"
+          type="button"
+        >
+          {clipboard.copied ? "copied!" : "copy"}
+        </button>
+        <button
+          className="tabber__clear-all-btn"
+          onClick={() => clearAll()}
+          type="button"
+        >
+          clear all
+        </button>
+      </>
+    );
+  };
+
+  const renderAddValue = () => {
+    return (
+      <button
+        onClick={() => addSingleValueToStrings()}
+        className="tabber__new-column-btn"
+        type="button"
+      >
+        +
+      </button>
+    );
+  };
+
   return (
     <div className="tabber">
       <div className="tabber__controls">
@@ -124,29 +164,8 @@ const Tabber = (props) => {
             />
           ))}
         </div>
-        <button
-          onClick={() => addSingleValueToStrings()}
-          className="tabber__new-column-btn"
-          type="button"
-        >
-          +
-        </button>
+        {renderAddValue()}
       </div>
-      <button
-        onClick={() => clipboard.copy(tabString)}
-        className="tabber__copy-button"
-        type="button"
-      >
-        {clipboard.copied ? "copied!" : "copy"}
-      </button>
-      <button
-        className="tabber__clear-all-btn"
-        onClick={() => clearAll()}
-        type="button"
-      >
-        clear all
-      </button>
-      <TabRenderer tabString={tabString} />
     </div>
   );
 };
