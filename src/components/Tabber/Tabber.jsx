@@ -5,7 +5,7 @@ import TabString from "./TabString.jsx";
 import * as R from "ramda";
 import { useClipboard } from "use-clipboard-copy";
 import { useTabStringContext } from "../../common/TabStringContext.jsx";
-import defaultStateObj from "./defaultState.js";
+import getDefaultState from "./defaultState.js";
 import {
   removeValueFromString,
   addValueToString,
@@ -34,10 +34,6 @@ const Tabber = (props) => {
     DelimitedNumericArrayParam,
   );
 
-  const defaultState = useMemo(() => {
-    return defaultStateObj;
-  }, []);
-
   const clipboard = useClipboard(
     { copiedTimeout: 1000 }, // timeout duration in milliseconds
   );
@@ -53,7 +49,7 @@ const Tabber = (props) => {
       }
     }
 
-    return parsedData ? parsedData : defaultState;
+    return parsedData ? parsedData : getDefaultState();
   });
 
   const longestPosition = useMemo(() => findLongestPosition(stringValues), [
@@ -71,10 +67,10 @@ const Tabber = (props) => {
   }, [tabString, setTabStringContext, id]);
 
   useEffect(() => {
-    R.equals(defaultState, stringValues)
-      ? window.history.replaceState({}, "", "/guitar-tabber")
-      : setQueryParam(compressData(stringValues));
-  }, [stringValues, setQueryParam, longestPosition, defaultState]);
+    if (!R.equals(stringValues, getDefaultState())) {
+      setQueryParam(compressData(stringValues));
+    }
+  }, [stringValues, setQueryParam]);
 
   const removeValue = (string, value) => {
     setStringValues((prevState) => {
@@ -168,6 +164,7 @@ const Tabber = (props) => {
             />
           ))}
         </div>
+        {renderAddValue()}
       </div>
     </div>
   );

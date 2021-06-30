@@ -12,8 +12,6 @@ const GuitarTabberPage = () => (
       <Seo title="Guitar Tabber" />
       <p>Welcome to guitar tabber. I'm testing if this is useful.</p>
       <Tabber id="tab1" />
-      <Tabber id="tab2" />
-      <TabRenderer />
     </MainLayout>
   </TabStringContextProvider>
 );
