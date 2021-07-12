@@ -1,5 +1,11 @@
-import * as React from "react";
+import React from "react";
 
-const IndexPage = () => <div>index page</div>;
+import Sheet from "../components/Sheet/Sheet.jsx";
+
+const IndexPage = () => (
+  <div>
+    <Sheet />
+  </div>
+);
 
 export default IndexPage;
