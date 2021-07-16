@@ -1,9 +1,14 @@
 import React, { useMemo } from "react";
+import { number } from "prop-types";
 import { useSheetContext } from "../../common/sheetContext.jsx";
 import * as R from "ramda";
 import "./bar.scss";
 
-const Bar = () => {
+const propTypes = { index: number.isRequired };
+
+const Bar = (props) => {
+  const { index } = props;
+
   const {
     strings: [strings, setStrings],
     beatsPerMeasure: [beatsPerMeasure, setBeatsPerMeasure],
@@ -17,9 +22,10 @@ const Bar = () => {
   return (
     <div className="bar">
       {strings.map((string, i, array) => (
-        <div key={string} className="bar__string">
+        <div key={string + i} className="bar__string">
           {beats.map((beat, j) => (
             <div key={beat}>
+              {index === 0 && j === 0 && <span>{strings[i]}</span>}
               <input className="bar__input" type="text" />
               {i === array.length - 1 && (
                 <div className="bar__beat">{j + 1}</div>
@@ -32,4 +38,5 @@ const Bar = () => {
   );
 };
 
+Bar.propTypes = propTypes;
 export default Bar;

@@ -22,7 +22,7 @@ const Sheet = () => {
   return (
     <div className="sheet">
       {bars.map((bar, i) => (
-        <Bar key={bar} />
+        <Bar index={i} key={bar} />
       ))}
       <button type="button" onClick={handleAddBar}>
         Add bar
