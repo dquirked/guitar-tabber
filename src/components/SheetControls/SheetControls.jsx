@@ -30,14 +30,13 @@ const SheetControls = () => {
       </div>
       <div className="sheet-controls__note-type">
         <div>Note Type</div>
-        <span>{beatsPerMeasure} / </span>
+        <span>1 / </span>
         <select
           onChange={(e) => setNoteType(parseInt(e.target.value))}
           className="sheet-controls__note-selector"
           name="note selector"
+          defaultValue="4"
         >
-          <option value="1">1</option>
-          <option value="2">2</option>
           <option value="4">4</option>
           <option value="8">8</option>
           <option value="16">16</option>
