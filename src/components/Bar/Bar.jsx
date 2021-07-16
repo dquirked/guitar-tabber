@@ -1,11 +1,14 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
+import { useSheetContext } from "../../common/sheetContext.jsx";
 import * as R from "ramda";
 import "./bar.scss";
 
 const Bar = () => {
-  const [strings, setStrings] = useState(["e", "B", "G", "D", "A", "E"]);
-  const [beatsPerMeasure, setBeatsPerMeasure] = useState(4);
-  const [noteType, setNoteType] = useState("eigth");
+  const {
+    strings: [strings, setStrings],
+    beatsPerMeasure: [beatsPerMeasure, setBeatsPerMeasure],
+    noteType: [noteType, setNoteType],
+  } = useSheetContext();
 
   const beats = useMemo(() => {
     return R.range(0, beatsPerMeasure);

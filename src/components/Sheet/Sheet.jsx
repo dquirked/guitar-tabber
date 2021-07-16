@@ -1,22 +1,28 @@
-import React, { useState } from "react";
+import React, { useMemo, useCallback } from "react";
+import { useSheetContext } from "../../common/sheetContext.jsx";
 import Bar from "../Bar/Bar.jsx";
 import * as R from "ramda";
 import "./sheet.scss";
 
 const Sheet = () => {
-  //start with one bar
-  const [bars, setBars] = useState(1);
+  const {
+    strings: [strings, setStrings],
+    beatsPerMeasure: [beatsPerMeasure, setBeatsPerMeasure],
+    noteType: [noteType, setNoteType],
+    numBars: [numBars, setNumBars],
+  } = useSheetContext();
 
-  const handleAddBar = () => {
-    setBars(bars + 1);
-  };
+  const handleAddBar = useCallback(() => setNumBars(numBars + 1), [
+    numBars,
+    setNumBars,
+  ]);
 
-  const numBars = R.range(0, bars);
+  const bars = useMemo(() => R.range(0, numBars), [numBars]);
 
   return (
     <div className="sheet">
-      {numBars.map((bar, i) => (
-        <Bar key={i} />
+      {bars.map((bar, i) => (
+        <Bar key={bar} />
       ))}
       <button type="button" onClick={handleAddBar}>
         Add bar
