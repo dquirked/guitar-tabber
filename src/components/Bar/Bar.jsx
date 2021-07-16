@@ -16,11 +16,14 @@ const Bar = () => {
 
   return (
     <div className="bar">
-      {strings.map((string, i) => (
+      {strings.map((string, i, array) => (
         <div key={string} className="bar__string">
-          {beats.map((beat, i) => (
+          {beats.map((beat, j) => (
             <div key={beat}>
               <input className="bar__input" type="text" />
+              {i === array.length - 1 && (
+                <div className="bar__beat">{j + 1}</div>
+              )}
             </div>
           ))}
         </div>

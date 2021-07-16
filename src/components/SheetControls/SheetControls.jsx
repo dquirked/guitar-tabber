@@ -2,6 +2,8 @@ import React, { useMemo } from "react";
 import { useSheetContext } from "../../common/sheetContext.jsx";
 import StringControls from "./StringControls.jsx";
 
+import "./sheet-controls.scss";
+
 const SheetControls = () => {
   const {
     strings: [strings, setStrings],
