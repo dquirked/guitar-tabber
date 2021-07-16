@@ -20,7 +20,7 @@ const Bar = () => {
         <div key={string} className="bar__string">
           {beats.map((beat, i) => (
             <div key={beat}>
-              <input type="text" />
+              <input className="bar__input" type="text" />
             </div>
           ))}
         </div>
