@@ -1,17 +1,16 @@
-import React from "react";
-import { array, func } from "prop-types";
-
 import "./string-controls.scss";
+import {} from "prop-types";
 
+import React from "react";
 import { updateStringName } from "../../common/stringControls.js";
+import { useSheetContext } from "../../common/sheetContext.jsx";
 
-const propTypes = {
-  strings: array.isRequired,
-  setStrings: func.isRequired,
-};
+const propTypes = {};
 
 const StringControls = (props) => {
-  const { strings, setStrings } = props;
+  const {
+    strings: [strings, setStrings],
+  } = useSheetContext();
 
   const handleStringNameChange = (index, newName) => {
     setStrings((prevState) => {
@@ -22,7 +21,7 @@ const StringControls = (props) => {
   return (
     <div className="string-controls">
       {strings?.map((string, i) => (
-        <div key={string + i}>
+        <div className="string-controls__name-container" key={string + i}>
           <input
             className="string-controls__input"
             type="text"

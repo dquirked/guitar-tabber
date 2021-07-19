@@ -1,29 +1,22 @@
-import React, { useMemo, useCallback } from "react";
-import { useSheetContext } from "../../common/sheetContext.jsx";
-import Bar from "../Bar/Bar.jsx";
-import * as R from "ramda";
 import "./sheet.scss";
+
+import React from "react";
+import StringControls from "../StringControls/StringControls.jsx";
+import { useSheetContext } from "../../common/sheetContext.jsx";
 
 const Sheet = () => {
   const {
     strings: [strings, setStrings],
     beatsPerMeasure: [beatsPerMeasure, setBeatsPerMeasure],
     noteType: [noteType, setNoteType],
-    numBars: [numBars, setNumBars],
+    bars: [bars, setBars],
+    handleAddBar,
   } = useSheetContext();
-
-  const handleAddBar = useCallback(() => setNumBars(numBars + 1), [
-    numBars,
-    setNumBars,
-  ]);
-
-  const bars = useMemo(() => R.range(0, numBars), [numBars]);
 
   return (
     <div className="sheet">
-      {bars.map((bar, i) => (
-        <Bar index={i} key={bar} />
-      ))}
+      <StringControls />
+      {bars.map((bar, i) => React.cloneElement(bar, { index: i }))}
       <button type="button" onClick={handleAddBar}>
         Add bar
       </button>

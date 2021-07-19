@@ -1,10 +1,9 @@
 /* eslint-disable  jsx-a11y/no-onchange */
 
+import "./sheet-controls.scss";
+
 import React from "react";
 import { useSheetContext } from "../../common/sheetContext.jsx";
-import StringControls from "./StringControls.jsx";
-
-import "./sheet-controls.scss";
 
 const SheetControls = () => {
   const {
@@ -15,10 +14,6 @@ const SheetControls = () => {
 
   return (
     <div className="sheet-controls">
-      <div className="sheet-controls__strings">
-        <div>Strings</div>
-        <StringControls strings={strings} setStrings={setStrings} />
-      </div>
       <div className="sheet-controls__beats">
         <div>Beats per measure</div>
         <input
@@ -26,6 +21,7 @@ const SheetControls = () => {
           onChange={(e) => setBeatsPerMeasure(parseInt(e.target.value))}
           value={beatsPerMeasure}
           type="text"
+          maxLength="2"
         />
       </div>
       <div className="sheet-controls__note-type">

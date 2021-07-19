@@ -1,19 +1,19 @@
 .bar {
   padding-right: 5px;
-  border-right: 1px solid black;
+
+  &:not(:last-of-type) {
+    border-right: 1px solid black;
+  }
 }
 
 .bar__string {
   display: flex;
-  margin-bottom: 5px;
-
-}
-
-.bar__input {
-  max-width: 30px;
-  margin-left: 5px;
 }
 
 .bar__beat {
+  height: 20px;
+  width: 40px;
+  padding: 5px 0;
+
   text-align: center;
 }
