@@ -3,16 +3,14 @@
 import "./note.scss";
 
 import React, { useState } from "react";
+import { func, string } from "prop-types";
 
-import { string } from "prop-types";
-
-const propTypes = { defaultValue: string.isRequired };
+const propTypes = { value: string.isRequired, handleChange: func.isRequired };
 
 const Note = (props) => {
-  const { defaultValue } = props;
+  const { value, handleChange } = props;
 
   const [isActive, setIsActive] = useState(false);
-  const [value, setValue] = useState(defaultValue);
 
   return !isActive ? (
     <button
@@ -26,7 +24,7 @@ const Note = (props) => {
     <input
       autoFocus
       className="note__input"
-      onChange={(e) => console.log("changed")}
+      onChange={(e) => handleChange(e.target.value)}
       maxLength="2"
       type="text"
       onBlur={() => setIsActive(false)}

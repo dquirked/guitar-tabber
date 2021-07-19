@@ -28,7 +28,7 @@ const Bar = (props) => {
         <div key={string + i} className="bar__string">
           {processedBeats.map((beat, j) => (
             <div className="bar__beat" key={beat}>
-              <Note defaultValue="-" />
+              <Note value="-" />
             </div>
           ))}
         </div>
