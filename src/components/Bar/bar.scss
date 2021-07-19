@@ -1,9 +1,4 @@
 .bar {
-  padding-right: 5px;
-
-  &:not(:last-of-type) {
-    border-right: 1px solid black;
-  }
 }
 
 .bar__string {

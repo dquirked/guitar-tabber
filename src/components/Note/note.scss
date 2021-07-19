@@ -1,6 +1,12 @@
-.note {
+.note__btn {
+  background: transparent;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.note__input {
   height: 100%;
-  width: 100%;
+  width: 95%;
   margin: 0;
   padding: 0;
 

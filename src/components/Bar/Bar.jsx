@@ -3,8 +3,8 @@ import "./bar.scss";
 import React, { useMemo } from "react";
 
 import Note from "../Note/Note.jsx";
-import { processBeatSubdivisions } from "../../common/noteTypeControls.js";
 import { string } from "prop-types";
+import { updateNoteType } from "../../common/stateFunctions.js";
 import { useSheetContext } from "../../common/sheetContext.jsx";
 
 const propTypes = { guid: string.isRequired };
@@ -16,10 +16,10 @@ const Bar = (props) => {
     noteType: [noteType, setNoteType],
   } = useSheetContext();
 
-  const { index, guid } = props;
+  const { guid } = props;
 
   const processedBeats = useMemo(() => {
-    return processBeatSubdivisions(beatsPerMeasure, noteType);
+    return updateNoteType(beatsPerMeasure, noteType);
   }, [beatsPerMeasure, noteType]);
 
   return (
@@ -28,7 +28,7 @@ const Bar = (props) => {
         <div key={string + i} className="bar__string">
           {processedBeats.map((beat, j) => (
             <div className="bar__beat" key={beat}>
-              <Note />
+              <Note defaultValue="-" />
             </div>
           ))}
         </div>

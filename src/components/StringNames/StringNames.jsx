@@ -1,13 +1,14 @@
-import "./string-controls.scss";
+import "./string-names.scss";
 import {} from "prop-types";
 
+import Note from "../Note/Note.jsx";
 import React from "react";
-import { updateStringName } from "../../common/stringControls.js";
+import { updateStringName } from "../../common/stateFunctions.js";
 import { useSheetContext } from "../../common/sheetContext.jsx";
 
 const propTypes = {};
 
-const StringControls = (props) => {
+const StringNames = (props) => {
   const {
     strings: [strings, setStrings],
   } = useSheetContext();
@@ -19,20 +20,21 @@ const StringControls = (props) => {
   };
 
   return (
-    <div className="string-controls">
+    <div className="string-names">
       {strings?.map((string, i) => (
-        <div className="string-controls__name-container" key={string + i}>
-          <input
-            className="string-controls__input"
+        <div className="string-names__name-container" key={string + i}>
+          {/* <input
+            className="string-names__input"
             type="text"
             value={string}
             onChange={(e) => handleStringNameChange(i, e.target.value)}
-          />
+          /> */}
+          <Note defaultValue={string} />
         </div>
       ))}
     </div>
   );
 };
 
-StringControls.propTypes = propTypes;
-export default StringControls;
+StringNames.propTypes = propTypes;
+export default StringNames;
