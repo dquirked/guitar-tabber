@@ -14,10 +14,10 @@ export const updateNoteType = (beatsPerMeasure, noteType) =>
   ])(noteType);
 
 export const updateBarNotes = (string, index, newNote, prevState) => {
-  // console.log(string, index, newNote, prevState);
+  const [stringName] = string;
   return R.map((stringArray) => {
     const [name, notes] = stringArray;
-    return name === string
+    return name === stringName
       ? [name, R.update(index, newNote, notes)]
       : [name, notes];
   })(prevState);

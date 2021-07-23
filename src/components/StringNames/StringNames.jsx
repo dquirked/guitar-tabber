@@ -5,7 +5,7 @@ import * as R from "ramda";
 
 import Note from "../Note/Note.jsx";
 import React from "react";
-import { updateStringName } from "../../common/stateFunctions.js";
+import { updateStringName } from "../../common/stateFunctions.jsx";
 import { useSheetContext } from "../../common/sheetContext.jsx";
 
 const propTypes = {};

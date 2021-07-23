@@ -3,11 +3,13 @@ import "./bar.scss";
 import * as R from "ramda";
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { updateBarNotes, updateNoteType } from "../../common/stateFunctions.js";
+import {
+  updateBarNotes,
+  updateNoteType,
+} from "../../common/stateFunctions.jsx";
 
 import Note from "../Note/Note.jsx";
 import { string } from "prop-types";
-import uniqueId from "lodash.uniqueid";
 import { useSheetContext } from "../../common/sheetContext.jsx";
 
 const propTypes = { guid: string.isRequired };
@@ -33,47 +35,18 @@ const Bar = (props) => {
 
   const [notes, setNotes] = useState(
     strings.reduce((acc, curr, i) => {
-      const noteKey = `${guid}-${uniqueId()}`;
-      const noteGuid = `${guid}-${uniqueId()}`;
-      return [
-        ...acc,
-        [
-          curr,
-          processedBeats.map((beat, i) => (
-            <Note
-              key={noteKey}
-              guid={noteGuid}
-              value="-"
-              handleChange={handleNoteChange(curr, i)}
-            />
-          )),
-        ],
-      ];
+      return [...acc, [curr, processedBeats.map((beat, i) => "-")]];
     }, []),
   );
 
   useEffect(() => {
+    // debugger;
     setNotes(
       strings.reduce((acc, curr, i) => {
-        const noteKey = `${guid}-${uniqueId()}`;
-        const noteGuid = `${guid}-${uniqueId()}`;
-        return [
-          ...acc,
-          [
-            curr,
-            processedBeats.map((beat, i) => (
-              <Note
-                key={noteKey}
-                guid={noteGuid}
-                value="-"
-                handleChange={handleNoteChange(curr, i)}
-              />
-            )),
-          ],
-        ];
+        return [...acc, [curr, processedBeats.map((beat, j) => "-")]];
       }, []),
     );
-  }, [processedBeats, setNotes, guid, strings]);
+  }, [processedBeats, setNotes, strings]);
 
   return (
     <div className="bar">
@@ -83,7 +56,12 @@ const Bar = (props) => {
           <div key={string + i} className="bar__string">
             {notes.map((note, j) => (
               <div className="bar__beat" key={name + i + j}>
-                {note}
+                <Note
+                  key={"note" + j}
+                  guid={"TEST"}
+                  value={note}
+                  handleChange={handleNoteChange(string, j)}
+                />
               </div>
             ))}
           </div>
