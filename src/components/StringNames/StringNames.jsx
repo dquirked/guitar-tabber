@@ -25,7 +25,11 @@ const StringNames = (props) => {
     <div className="string-names">
       {strings?.map((string, i) => (
         <div className="string-names__name-container" key={string + i}>
-          <Note value={string} handleChange={handleStringNameChange(i)} />
+          <Note
+            value={string}
+            guid={string + i}
+            handleChange={handleStringNameChange(i)}
+          />
         </div>
       ))}
     </div>

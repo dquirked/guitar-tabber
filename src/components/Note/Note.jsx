@@ -5,14 +5,31 @@ import "./note.scss";
 import React, { useState } from "react";
 import { func, string } from "prop-types";
 
-const propTypes = { value: string.isRequired, handleChange: func.isRequired };
+const propTypes = {
+  value: string.isRequired,
+  handleChange: func.isRequired,
+  guid: string.isRequired,
+};
 
 const Note = (props) => {
-  const { value, handleChange } = props;
+  const { value, handleChange, guid } = props;
 
   const [isActive, setIsActive] = useState(false);
+  console.log(isActive);
 
-  return !isActive ? (
+  if (isActive) {
+    return (
+      <input
+        autoFocus
+        className="note__input"
+        onChange={(e) => handleChange(e.target.value)}
+        maxLength="2"
+        type="text"
+        onBlur={() => setIsActive(false)}
+      />
+    );
+  }
+  return (
     <button
       type="button"
       className="note__btn"
@@ -20,15 +37,6 @@ const Note = (props) => {
     >
       {value}
     </button>
-  ) : (
-    <input
-      autoFocus
-      className="note__input"
-      onChange={(e) => handleChange(e.target.value)}
-      maxLength="2"
-      type="text"
-      onBlur={() => setIsActive(false)}
-    />
   );
 };
 

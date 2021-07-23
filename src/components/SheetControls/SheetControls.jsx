@@ -18,9 +18,11 @@ const SheetControls = () => {
         <div>Beats per measure</div>
         <input
           className="sheet-controls__beat-input"
-          onChange={(e) => setBeatsPerMeasure(parseInt(e.target.value))}
+          onChange={(e) => {
+            setBeatsPerMeasure(parseInt(e.target.value));
+          }}
           value={beatsPerMeasure}
-          type="text"
+          type="number"
           maxLength="2"
         />
       </div>
