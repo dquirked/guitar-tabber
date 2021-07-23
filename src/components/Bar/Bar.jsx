@@ -55,19 +55,14 @@ const Bar = (props) => {
         return (
           <div key={string + i} className="bar__string">
             {notes.map((note, j) => (
-              <div className="bar__beat" key={name + i + j}>
-                <Note
-                  key={"note" + j}
-                  guid={"TEST"}
-                  value={note}
-                  handleChange={handleNoteChange(string, j)}
-                />
+              <div className="bar__beat" key={name + note + i + j}>
+                <Note value={note} handleChange={handleNoteChange(string, j)} />
               </div>
             ))}
           </div>
         );
       })}
-      {/* <button onClick={} type="button">X</button> */}
+      <button type="button">X</button>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import * as R from "ramda";
 
-export const removeBar = () => {};
+// TODO: implement remove bar
+export const removeBar = (guid, prevState) => {};
 
 export const updateStringName = (index, newName, prevState) => {
   return R.update(index, newName, prevState);

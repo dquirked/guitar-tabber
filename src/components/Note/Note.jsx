@@ -8,11 +8,10 @@ import { func, string } from "prop-types";
 const propTypes = {
   value: string.isRequired,
   handleChange: func.isRequired,
-  guid: string.isRequired,
 };
 
 const Note = (props) => {
-  const { value, handleChange, guid } = props;
+  const { value, handleChange } = props;
 
   const [isActive, setIsActive] = useState(false);
 
