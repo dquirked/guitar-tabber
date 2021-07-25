@@ -2,67 +2,47 @@ import "./bar.scss";
 
 import * as R from "ramda";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  updateBarNotes,
-  updateNoteType,
-} from "../../common/stateFunctions.jsx";
+import React, { useEffect, useMemo, useState } from "react";
+import { array, number } from "prop-types";
 
 import Note from "../Note/Note.jsx";
-import { string } from "prop-types";
 import { useSheetContext } from "../../common/sheetContext.jsx";
 
-const propTypes = { guid: string.isRequired };
+const propTypes = { index: number, values: array };
 
 const Bar = (props) => {
-  const {
-    strings: [strings, setStrings],
-    beatsPerMeasure: [beatsPerMeasure, setBeatsPerMeasure],
-    noteType: [noteType, setNoteType],
-  } = useSheetContext();
+  const { index, values } = props;
 
-  const { guid } = props;
+  const { handleRemoveBar, handleNoteUpdate } = useSheetContext();
 
-  const processedBeats = useMemo(() => {
-    return updateNoteType(beatsPerMeasure, noteType);
-  }, [beatsPerMeasure, noteType]);
-
-  const handleNoteChange = R.curry((string, index, newNote) => {
-    setNotes((prevState) => {
-      return updateBarNotes(string, index, newNote, prevState);
-    });
-  });
-
-  const [notes, setNotes] = useState(
-    strings.reduce((acc, curr, i) => {
-      return [...acc, [curr, processedBeats.map((beat, i) => "-")]];
-    }, []),
+  const handleNoteChange = R.curry(
+    (barIndex, stringIndex, noteIndex, newNote) =>
+      handleNoteUpdate(barIndex, stringIndex, noteIndex, newNote),
   );
-
-  useEffect(() => {
-    // debugger;
-    setNotes(
-      strings.reduce((acc, curr, i) => {
-        return [...acc, [curr, processedBeats.map((beat, j) => "-")]];
-      }, []),
-    );
-  }, [processedBeats, setNotes, strings]);
 
   return (
     <div className="bar">
-      {notes.map((string, i) => {
-        const [name, notes] = string;
+      {values.map((string, i) => {
         return (
-          <div key={string + i} className="bar__string">
-            {notes.map((note, j) => (
-              <div className="bar__beat" key={name + note + i + j}>
-                <Note value={note} handleChange={handleNoteChange(string, j)} />
-              </div>
-            ))}
+          <div key={"string-" + i} className="bar__string">
+            {string.map((note, j) => {
+              return (
+                <div className="bar__beat" key={"note-" + i + "-" + j}>
+                  <Note
+                    value={note}
+                    handleChange={handleNoteChange(index, i, j)}
+                  />
+                </div>
+              );
+            })}
           </div>
         );
       })}
-      <button type="button">X</button>
+      <div className="bar__remove-container">
+        <button onClick={() => handleRemoveBar(index)} type="button">
+          X
+        </button>
+      </div>
     </div>
   );
 };
