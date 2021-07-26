@@ -2,10 +2,10 @@ import "./bar.scss";
 
 import * as R from "ramda";
 
-import React, { useEffect, useMemo, useState } from "react";
 import { array, number } from "prop-types";
 
 import Note from "../Note/Note.jsx";
+import React from "react";
 import { useSheetContext } from "../../common/sheetContext.jsx";
 
 const propTypes = { index: number, values: array };
