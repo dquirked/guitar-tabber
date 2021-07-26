@@ -1,0 +1,19 @@
+.note__btn {
+  background: transparent;
+  border: none;
+  border-radius: 5px;
+}
+
+.note__input {
+  height: 100%;
+  width: 22px;
+  margin: 0;
+  padding: 0;
+
+  text-align: center;
+  border: none;
+
+  &:focus {
+    border: 1px solid black;
+  }
+}
