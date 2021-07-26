@@ -3,7 +3,7 @@ import {
   useQueryParams,
   withDefault,
 } from "use-query-params";
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { removeBar, updateBarNotes, updateNoteType } from "./stateFunctions.js";
 
 const SheetContext = React.createContext();
@@ -27,13 +27,17 @@ export const SheetContextProvider = (props) => {
 
     if (q_strings) {
       try {
-        parsedData = JSON.parse(q_strings);
+        parsedData = q_strings;
       } catch (e) {
         console.warn(e);
       }
     }
     return parsedData ? parsedData : ["e", "B", "G", "D", "A", "E"];
   });
+
+  useEffect(() => {
+    setQueryParams({ q_strings: strings });
+  }, [strings, setQueryParams]);
 
   //intialize at 4 beats per measure
   const [beatsPerMeasure, setBeatsPerMeasure] = useState(4);
