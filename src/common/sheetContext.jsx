@@ -1,13 +1,14 @@
-import * as R from "ramda";
-
 import {
   DelimitedArrayParam,
   JsonParam,
   useQueryParams,
-  withDefault,
 } from "use-query-params";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { removeBar, updateBarNotes, updateNoteType } from "./stateFunctions.js";
+
+import { string } from "prop-types";
+
+const propTypes = { id: string.isRequired };
 
 const SheetContext = React.createContext();
 
@@ -16,18 +17,21 @@ export function useSheetContext() {
 }
 
 export const SheetContextProvider = (props) => {
-  const [queryParams, setQueryParams] = useQueryParams({
-    q_strings: DelimitedArrayParam,
-    q_bars: JsonParam,
-  });
+  const { id } = props;
 
-  const { q_strings, q_bars } = queryParams;
+  const qStrings = `${id}_strings`;
+  const qBars = `${id}_bars`;
+
+  const [queryParams, setQueryParams] = useQueryParams({
+    [qStrings]: DelimitedArrayParam,
+    [qBars]: JsonParam,
+  });
 
   //initalize strings from query params, otherwise return
   //standard guitar tuning
   const [strings, setStrings] = useState(() => {
-    if (q_strings) {
-      return q_strings;
+    if (queryParams[qStrings]) {
+      return queryParams[qStrings];
     }
 
     return ["e", "B", "G", "D", "A", "E"];
@@ -35,9 +39,9 @@ export const SheetContextProvider = (props) => {
 
   useEffect(() => {
     JSON.stringify(strings) === JSON.stringify(["e", "B", "G", "D", "A", "E"])
-      ? setQueryParams({ q_strings: undefined })
-      : setQueryParams({ q_strings: strings });
-  }, [strings, setQueryParams, q_strings]);
+      ? setQueryParams({ [qStrings]: undefined })
+      : setQueryParams({ [qStrings]: strings });
+  }, [strings, setQueryParams, qStrings]);
 
   //intialize at 4 beats per measure
   const [beatsPerMeasure, setBeatsPerMeasure] = useState(4);
@@ -62,17 +66,17 @@ export const SheetContextProvider = (props) => {
   //initialize the bars to the querystring if it exists
   //otherwise return a dummy bar
   const [bars, setBars] = useState(() => {
-    if (q_bars) {
-      return q_bars;
+    if (queryParams[qBars]) {
+      return queryParams[qBars];
     }
-    return [dummyBar];
+    return [];
   });
 
   useEffect(() => {
     bars.length > 1
-      ? setQueryParams({ q_bars: bars })
-      : setQueryParams({ q_bars: undefined });
-  }, [bars, setQueryParams]);
+      ? setQueryParams({ [qBars]: bars })
+      : setQueryParams({ [qBars]: undefined });
+  }, [bars, setQueryParams, qBars]);
 
   const handleAddBar = () => setBars((prevState) => [...prevState, dummyBar]);
 
@@ -100,3 +104,5 @@ export const SheetContextProvider = (props) => {
     />
   );
 };
+
+SheetContextProvider.propTypes = propTypes;

@@ -14,7 +14,11 @@ const IndexPage = () => {
 
   return (
     <Layout>
-      <SheetContextProvider>
+      <SheetContextProvider id="s1">
+        <SheetControls />
+        {hasMounted && <Sheet />}
+      </SheetContextProvider>
+      <SheetContextProvider id="s2">
         <SheetControls />
         {hasMounted && <Sheet />}
       </SheetContextProvider>
