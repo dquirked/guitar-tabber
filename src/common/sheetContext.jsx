@@ -1,3 +1,8 @@
+import {
+  DelimitedArrayParam,
+  useQueryParams,
+  withDefault,
+} from "use-query-params";
 import React, { useContext, useMemo, useState } from "react";
 import { removeBar, updateBarNotes, updateNoteType } from "./stateFunctions.js";
 
@@ -8,8 +13,27 @@ export function useSheetContext() {
 }
 
 export const SheetContextProvider = (props) => {
-  //inital string names
-  const [strings, setStrings] = useState(["e", "B", "G", "D", "A", "E"]);
+  const [queryParams, setQueryParams] = useQueryParams({
+    q_strings: DelimitedArrayParam,
+    q_bars: DelimitedArrayParam,
+  });
+
+  const { q_strings, q_bars } = queryParams;
+
+  //initalize strings from query params, otherwise return
+  //standard guitar tuning
+  const [strings, setStrings] = useState(() => {
+    let parsedData = undefined;
+
+    if (q_strings) {
+      try {
+        parsedData = JSON.parse(q_strings);
+      } catch (e) {
+        console.warn(e);
+      }
+    }
+    return parsedData ? parsedData : ["e", "B", "G", "D", "A", "E"];
+  });
 
   //intialize at 4 beats per measure
   const [beatsPerMeasure, setBeatsPerMeasure] = useState(4);
@@ -31,8 +55,20 @@ export const SheetContextProvider = (props) => {
     [processedBeats, strings],
   );
 
-  //initialize one bar with filler notes on all strings
-  const [bars, setBars] = useState([dummyBar]);
+  //initialize the bars to the querystring if it exists
+  //otherwise return a dummy bar
+  const [bars, setBars] = useState(() => {
+    let parsedData = undefined;
+
+    if (q_bars) {
+      try {
+        parsedData = JSON.parse(q_bars);
+      } catch (e) {
+        console.warn(e);
+      }
+    }
+    return parsedData ? parsedData : [dummyBar];
+  });
 
   const handleAddBar = () => setBars((prevState) => [...prevState, dummyBar]);
 

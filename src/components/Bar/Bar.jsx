@@ -22,22 +22,27 @@ const Bar = (props) => {
 
   return (
     <div className="bar">
-      {values.map((string, i) => {
-        return (
-          <div key={"string-" + i} className="bar__string">
-            {string.map((note, j) => {
-              return (
-                <div className="bar__beat" key={"note-" + i + "-" + j}>
-                  <Note
-                    value={note}
-                    handleChange={handleNoteChange(index, i, j)}
-                  />
-                </div>
-              );
-            })}
-          </div>
-        );
-      })}
+      <div className="bar__content">
+        <div className="bar__strings">
+          {values.map((string, i) => {
+            return (
+              <div key={"string-" + i} className="bar__string">
+                {string.map((note, j) => {
+                  return (
+                    <div className="bar__beat" key={"note-" + i + "-" + j}>
+                      <Note
+                        value={note}
+                        handleChange={handleNoteChange(index, i, j)}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+        <hr />
+      </div>
       <div className="bar__remove-container">
         <button onClick={() => handleRemoveBar(index)} type="button">
           X

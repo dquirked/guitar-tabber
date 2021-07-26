@@ -11,14 +11,11 @@ const Sheet = () => {
   return (
     <div className="sheet">
       <StringNames />
-      {bars.map((barValues, i) => {
-        return (
-          <React.Fragment key={i}>
-            <Bar index={i} values={barValues} />
-            <hr className="sheet__bar-seperator" />
-          </React.Fragment>
-        );
-      })}
+      <div className="sheet__bar-wrapper">
+        {bars.map((barValues, i) => {
+          return <Bar key={i} index={i} values={barValues} />;
+        })}
+      </div>
       <button type="button" onClick={handleAddBar}>
         Add bar
       </button>

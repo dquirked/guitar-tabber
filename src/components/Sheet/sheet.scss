@@ -2,6 +2,12 @@
   display: flex;
 }
 
+.sheet__bar-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  padding-right: 10px;
+}
+
 .sheet__bar-seperator {
   margin: 0 5px;
 }
