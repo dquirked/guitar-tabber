@@ -41,7 +41,7 @@ const Bar = (props) => {
             );
           })}
         </div>
-        <hr />
+        <hr style={{ margin: "10px", padding: "0" }} />
       </div>
       <div className="bar__remove-container">
         <button onClick={() => handleRemoveBar(index)} type="button">

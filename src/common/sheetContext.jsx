@@ -34,8 +34,10 @@ export const SheetContextProvider = (props) => {
   });
 
   useEffect(() => {
-    setQueryParams({ q_strings: strings });
-  }, [strings, setQueryParams]);
+    JSON.stringify(strings) === JSON.stringify(["e", "B", "G", "D", "A", "E"])
+      ? setQueryParams({ q_strings: undefined })
+      : setQueryParams({ q_strings: strings });
+  }, [strings, setQueryParams, q_strings]);
 
   //intialize at 4 beats per measure
   const [beatsPerMeasure, setBeatsPerMeasure] = useState(4);
@@ -67,7 +69,9 @@ export const SheetContextProvider = (props) => {
   });
 
   useEffect(() => {
-    setQueryParams({ q_bars: bars });
+    bars.length > 1
+      ? setQueryParams({ q_bars: bars })
+      : setQueryParams({ q_bars: undefined });
   }, [bars, setQueryParams]);
 
   const handleAddBar = () => setBars((prevState) => [...prevState, dummyBar]);
