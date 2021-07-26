@@ -1,5 +1,8 @@
+import * as R from "ramda";
+
 import {
   DelimitedArrayParam,
+  JsonParam,
   useQueryParams,
   withDefault,
 } from "use-query-params";
@@ -15,7 +18,7 @@ export function useSheetContext() {
 export const SheetContextProvider = (props) => {
   const [queryParams, setQueryParams] = useQueryParams({
     q_strings: DelimitedArrayParam,
-    q_bars: DelimitedArrayParam,
+    q_bars: JsonParam,
   });
 
   const { q_strings, q_bars } = queryParams;
@@ -23,16 +26,11 @@ export const SheetContextProvider = (props) => {
   //initalize strings from query params, otherwise return
   //standard guitar tuning
   const [strings, setStrings] = useState(() => {
-    let parsedData = undefined;
-
     if (q_strings) {
-      try {
-        parsedData = q_strings;
-      } catch (e) {
-        console.warn(e);
-      }
+      return q_strings;
     }
-    return parsedData ? parsedData : ["e", "B", "G", "D", "A", "E"];
+
+    return ["e", "B", "G", "D", "A", "E"];
   });
 
   useEffect(() => {
@@ -62,17 +60,15 @@ export const SheetContextProvider = (props) => {
   //initialize the bars to the querystring if it exists
   //otherwise return a dummy bar
   const [bars, setBars] = useState(() => {
-    let parsedData = undefined;
-
     if (q_bars) {
-      try {
-        parsedData = JSON.parse(q_bars);
-      } catch (e) {
-        console.warn(e);
-      }
+      return q_bars;
     }
-    return parsedData ? parsedData : [dummyBar];
+    return [dummyBar];
   });
+
+  useEffect(() => {
+    setQueryParams({ q_bars: bars });
+  }, [bars, setQueryParams]);
 
   const handleAddBar = () => setBars((prevState) => [...prevState, dummyBar]);
 
