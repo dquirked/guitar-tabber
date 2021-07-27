@@ -115,7 +115,7 @@ export const SheetContextProvider = (props) => {
   });
 
   useEffect(() => {
-    bars.length > 1
+    bars.length >= 1
       ? setQueryParams({ [qBars]: bars })
       : setQueryParams({ [qBars]: undefined });
   }, [bars, setQueryParams, qBars]);
