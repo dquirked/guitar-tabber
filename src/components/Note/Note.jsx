@@ -20,7 +20,7 @@ const Note = (props) => {
       autoFocus
       className="note__input"
       onChange={(e) => handleChange(e.target.value)}
-      maxLength="2"
+      maxLength="3"
       type="text"
       onBlur={() => setIsActive(false)}
     />
