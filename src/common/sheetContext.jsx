@@ -2,6 +2,7 @@ import {
   DelimitedArrayParam,
   JsonParam,
   useQueryParams,
+  NumberParam,
 } from "use-query-params";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { removeBar, updateBarNotes, updateNoteType } from "./stateFunctions.js";
@@ -21,10 +22,14 @@ export const SheetContextProvider = (props) => {
 
   const qStrings = `${id}_strings`;
   const qBars = `${id}_bars`;
+  const qBeats = `${id}_beats`;
+  const qNoteType = `${id}_note_type`;
 
   const [queryParams, setQueryParams] = useQueryParams({
     [qStrings]: DelimitedArrayParam,
     [qBars]: JsonParam,
+    [qBeats]: NumberParam,
+    [qNoteType]: NumberParam,
   });
 
   //initalize strings from query params, otherwise return
@@ -44,10 +49,47 @@ export const SheetContextProvider = (props) => {
   }, [strings, setQueryParams, qStrings]);
 
   //intialize at 4 beats per measure
-  const [beatsPerMeasure, setBeatsPerMeasure] = useState(4);
+  const [beatsPerMeasure, setBeatsPerMeasure] = useState(() => {
+    if (queryParams[qBeats]) {
+      return queryParams[qBeats];
+    }
+    return 4;
+  });
+
+  useEffect(() => {
+    beatsPerMeasure === 4
+      ? setQueryParams({ [qBeats]: undefined })
+      : setQueryParams({ [qBeats]: beatsPerMeasure });
+  }, [beatsPerMeasure, qBeats, setQueryParams]);
 
   //1 = whole note, 2 = half note, 4 = quarter note, 8 = eigth note, 16 = sixteenth note
-  const [noteType, setNoteType] = useState(4);
+  const [noteType, setNoteType] = useState(() => {
+    if (queryParams[qNoteType]) {
+      return queryParams[qNoteType];
+    }
+    return 4;
+  });
+
+  useEffect(() => {
+    switch (noteType) {
+      case 4: {
+        setQueryParams({ [qNoteType]: undefined });
+        return;
+      }
+      case 8: {
+        setQueryParams({ [qNoteType]: noteType });
+        return;
+      }
+      case 16: {
+        setQueryParams({ [qNoteType]: noteType });
+        return;
+      }
+      default: {
+        setQueryParams({ [qNoteType]: undefined });
+        return;
+      }
+    }
+  }, [setQueryParams, qNoteType, noteType]);
 
   //subdivide beats
   const processedBeats = useMemo(() => {

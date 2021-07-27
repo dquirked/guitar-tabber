@@ -33,7 +33,7 @@ const SheetControls = () => {
           onChange={(e) => setNoteType(parseInt(e.target.value))}
           className="sheet-controls__note-selector"
           name="note selector"
-          defaultValue="4"
+          defaultValue={`${noteType}`}
         >
           <option value="4">4</option>
           <option value="8">8</option>
