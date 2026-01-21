@@ -8,6 +8,13 @@ D|-----------------------------|
 A|-----------0-------2---------|
 E|---3-------------------------|`
 
+const BLANK_TAB = `e|---------------------------------|
+B|---------------------------------|
+G|---------------------------------|
+D|---------------------------------|
+A|---------------------------------|
+E|---------------------------------|`
+
 // Compress text for URL using LZ-string
 const encodeTab = (text: string): string => {
   return LZString.compressToEncodedURIComponent(text)
@@ -72,16 +79,24 @@ const TabEditor = () => {
     <div className="flex flex-col h-full">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Guitar Tabber</h1>
-        <button
-          onClick={handleCopyLink}
-          className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
-            copied
-              ? 'bg-green-600 text-white'
-              : 'bg-blue-600 hover:bg-blue-500 text-white'
-          }`}
-        >
-          {copied ? 'Copied!' : 'Copy Link'}
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setTab(tab ? tab + '\n\n' + BLANK_TAB : BLANK_TAB)}
+            className="px-4 py-2 rounded text-sm font-medium bg-gray-700 hover:bg-gray-600 text-white transition-colors"
+          >
+            + Add Blank
+          </button>
+          <button
+            onClick={handleCopyLink}
+            className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
+              copied
+                ? 'bg-green-600 text-white'
+                : 'bg-blue-600 hover:bg-blue-500 text-white'
+            }`}
+          >
+            {copied ? 'Copied!' : 'Copy Link'}
+          </button>
+        </div>
       </div>
 
       <textarea
