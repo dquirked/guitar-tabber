@@ -1,16 +1,39 @@
-# React + Vite
+# Guitar Tabber
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple web-based guitar tab editor with URL-based sharing. Type or paste your guitar tablature, and the URL automatically updates so you can share it with anyone.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Instant sharing** - The tab is compressed and stored in the URL hash, so you can share by copying the link
+- **No account required** - Everything is stored in the URL, no backend needed
+- **Browser history support** - Back/forward navigation works as expected
 
-## React Compiler
+## Usage
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Type or paste your guitar tab in the editor
+2. Click "Copy Link" to copy the shareable URL
+3. Send the link to anyone - they'll see your exact tab
 
-## Expanding the ESLint configuration
+## Development
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+# Install dependencies
+npm install
+
+# Start dev server
+npm run dev
+
+# Build for production
+npm run build
+
+# Type check
+npm run typecheck
+```
+
+## Tech Stack
+
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS 4
+- LZ-string (URL compression)
